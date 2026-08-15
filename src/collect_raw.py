@@ -1,13 +1,17 @@
 from pathlib import Path
 from datetime import datetime, timezone
+from urllib.parse import urljoin
+import re
 import time
 
 import pandas as pd
+from bs4 import BeautifulSoup
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 
 
 # ============================================================
@@ -19,22 +23,16 @@ BASE_URL = (
     "residential/sold/auckland"
 )
 
-# --------------------------------------------
-# IMPORTANT:
-# Start small while testing.
-#
-# Page 1-2 ≈ 40 property cards.
-# --------------------------------------------
-
 START_PAGE = 1
 END_PAGE = 80
 
 WAIT_TIMEOUT = 30
 
-# Delay between pages.
-# Keep this consistent with your authorised
-# rate/volume limits.
-DELAY_SECONDS = 3
+# Set according to the limits/conditions of your permission.
+DELAY_SECONDS = 2
+
+# You do NOT need 80 HTML files for normal collection.
+SAVE_RAW_HTML = False
 
 
 # ============================================================
@@ -48,46 +46,53 @@ PROJECT_ROOT = (
     .parent
 )
 
-
-RAW_HTML_DIR = (
+DATA_DIR = (
     PROJECT_ROOT
     / "data"
-    / "raw_html"
 )
 
-
 RAW_DATA_DIR = (
-    PROJECT_ROOT
-    / "data"
+    DATA_DIR
     / "raw"
 )
 
+RAW_HTML_DIR = (
+    DATA_DIR
+    / "raw_html"
+)
 
-RAW_CSV_FILE = (
+PROPERTY_CARDS_FILE = (
     RAW_DATA_DIR
     / "property_cards.csv"
 )
 
+COLLECTION_REPORT_FILE = (
+    RAW_DATA_DIR
+    / "collection_report.csv"
+)
+
 
 # ============================================================
-# CREATE REQUIRED DIRECTORIES
+# DIRECTORY SETUP
 # ============================================================
 
 def create_directories():
-
-    RAW_HTML_DIR.mkdir(
-        parents=True,
-        exist_ok=True
-    )
 
     RAW_DATA_DIR.mkdir(
         parents=True,
         exist_ok=True
     )
 
+    if SAVE_RAW_HTML:
+
+        RAW_HTML_DIR.mkdir(
+            parents=True,
+            exist_ok=True
+        )
+
 
 # ============================================================
-# BUILD PAGE URL
+# URL
 # ============================================================
 
 def build_page_url(page_number):
@@ -102,14 +107,14 @@ def build_page_url(page_number):
 
 
 # ============================================================
-# CREATE CHROME
+# BROWSER
 # ============================================================
 
 def create_driver():
 
     options = Options()
 
-    # Keep browser visible during development.
+    # Keep Chrome visible while developing/debugging.
     options.add_argument(
         "--start-maximized"
     )
@@ -118,28 +123,36 @@ def create_driver():
         "--disable-notifications"
     )
 
-    # Later, after everything works,
-    # you can optionally enable headless:
+    # Don't use headless until you've confirmed
+    # collection works properly.
+    #
+    # Later you can optionally enable:
     #
     # options.add_argument("--headless=new")
 
-    return webdriver.Chrome(
+    driver = webdriver.Chrome(
         options=options
     )
 
+    driver.set_page_load_timeout(
+        45
+    )
+
+    return driver
+
 
 # ============================================================
-# WAIT FOR PROPERTY CARDS
+# WAIT FOR PAGE
 # ============================================================
 
-def wait_for_property_cards(driver):
+def wait_for_results(driver):
 
     wait = WebDriverWait(
         driver,
         WAIT_TIMEOUT
     )
 
-    # Wait for the browser document.
+    # Wait for normal browser loading.
     wait.until(
         lambda browser:
         browser.execute_script(
@@ -147,8 +160,7 @@ def wait_for_property_cards(driver):
         ) == "complete"
     )
 
-    # More important:
-    # wait until property links actually exist.
+    # Wait until property links appear.
     wait.until(
         lambda browser:
         len(
@@ -161,21 +173,257 @@ def wait_for_property_cards(driver):
 
 
 # ============================================================
-# SAVE RENDERED HTML
+# TEXT HELPERS
 # ============================================================
 
-def save_html(
-    driver,
+def normalise_text(text):
+
+    if not text:
+        return ""
+
+    return re.sub(
+        r"\s+",
+        " ",
+        text
+    ).strip()
+
+
+def is_sold_text(text):
+
+    lower = text.lower()
+
+    return (
+        "recently sold" in lower
+        or
+        "last sold on" in lower
+    )
+
+
+# ============================================================
+# FIND COMPLETE PROPERTY CARD
+# ============================================================
+
+def find_property_card(
+    anchor
+):
+
+    """
+    Start from a property <a> element and walk upward
+    through parent elements.
+
+    We want the smallest parent that:
+
+        1. contains sold-property information, and
+        2. contains links belonging to ONE unique property.
+
+    This is much safer than using anchor.get_text()
+    because price/date/attributes may live outside
+    that individual <a>.
+    """
+
+    node = anchor
+
+    # Don't climb indefinitely.
+    for _ in range(12):
+
+        if node is None:
+            break
+
+        text = normalise_text(
+            node.get_text(
+                " ",
+                strip=True
+            )
+        )
+
+        if is_sold_text(text):
+
+            property_links = (
+                node.select(
+                    'a[href*="/property/"]'
+                )
+            )
+
+            unique_urls = set()
+
+            for link in property_links:
+
+                href = link.get(
+                    "href"
+                )
+
+                if not href:
+                    continue
+
+                url = urljoin(
+                    "https://www.realestate.co.nz",
+                    href
+                )
+
+                unique_urls.add(
+                    url
+                )
+
+            # A property card may have multiple links:
+            #
+            # image → same property
+            # address → same property
+            #
+            # That is okay.
+            #
+            # But if this parent contains 20 different
+            # property URLs, we've climbed too high.
+            if len(unique_urls) == 1:
+
+                return node
+
+        node = node.parent
+
+    return None
+
+
+# ============================================================
+# PARSE RENDERED PAGE
+# ============================================================
+
+def parse_rendered_html(
+    html,
+    page_number,
+    page_url
+):
+
+    soup = BeautifulSoup(
+        html,
+        "lxml"
+    )
+
+    property_anchors = (
+        soup.select(
+            'a[href*="/property/"]'
+        )
+    )
+
+    records = []
+
+    seen_urls = set()
+
+    collection_time = (
+        datetime.now(
+            timezone.utc
+        ).isoformat()
+    )
+
+    for anchor in property_anchors:
+
+        href = anchor.get(
+            "href"
+        )
+
+        if not href:
+            continue
+
+        source_url = urljoin(
+            "https://www.realestate.co.nz",
+            href
+        )
+
+        # Same property may have image link,
+        # address link, etc.
+        if source_url in seen_urls:
+            continue
+
+        card = find_property_card(
+            anchor
+        )
+
+        if card is None:
+            continue
+
+        card_text = normalise_text(
+            card.get_text(
+                " ",
+                strip=True
+            )
+        )
+
+        if not is_sold_text(
+            card_text
+        ):
+            continue
+
+        seen_urls.add(
+            source_url
+        )
+
+        records.append(
+            {
+                "page_number":
+                    page_number,
+
+                "search_page_url":
+                    page_url,
+
+                "source_url":
+                    source_url,
+
+                "card_text":
+                    card_text,
+
+                "collected_at_utc":
+                    collection_time,
+            }
+        )
+
+    return records
+
+
+# ============================================================
+# VIEWING INFORMATION
+# ============================================================
+
+def get_viewing_text(
+    driver
+):
+
+    try:
+
+        body_text = (
+            driver.find_element(
+                By.TAG_NAME,
+                "body"
+            ).text
+        )
+
+    except Exception:
+
+        return None
+
+    match = re.search(
+        r"Viewing\s+"
+        r"[\d,]+-[\d,]+\s+"
+        r"of\s+[\d,]+\s+results",
+        body_text,
+        re.IGNORECASE
+    )
+
+    if match:
+
+        return match.group(0)
+
+    return None
+
+
+# ============================================================
+# OPTIONAL RAW HTML
+# ============================================================
+
+def save_raw_html(
+    html,
     page_number
 ):
 
-    html = driver.execute_script(
-        """
-        return document
-            .documentElement
-            .outerHTML;
-        """
-    )
+    if not SAVE_RAW_HTML:
+        return
 
     output_file = (
         RAW_HTML_DIR
@@ -190,127 +438,94 @@ def save_html(
         encoding="utf-8"
     )
 
-    return output_file
-
 
 # ============================================================
-# EXTRACT RAW PROPERTY CARDS
+# SAVE PROPERTY CHECKPOINT
 # ============================================================
 
-def extract_property_cards(
-    driver,
-    page_number,
-    search_page_url
+def save_property_records(
+    records
 ):
 
-    elements = driver.find_elements(
-        By.CSS_SELECTOR,
-        'a[href*="/property/"]'
-    )
-
-    records = []
-
-    seen_urls = set()
-
-    collection_time = (
-        datetime.now(timezone.utc)
-        .isoformat()
-    )
-
-    for element in elements:
-
-        href = element.get_attribute(
-            "href"
-        )
-
-        if not href:
-            continue
-
-        # Remove duplicate links within the page.
-        if href in seen_urls:
-            continue
-
-        text = " ".join(
-            element.text.split()
-        )
-
-        if not text:
-            continue
-
-        lower_text = text.lower()
-
-        # Only sold-property result cards.
-        if (
-            "recently sold" not in lower_text
-            and
-            "last sold on" not in lower_text
-        ):
-            continue
-
-        seen_urls.add(
-            href
-        )
-
-        records.append(
-            {
-                "page_number":
-                    page_number,
-
-                "search_page_url":
-                    search_page_url,
-
-                "source_url":
-                    href,
-
-                "card_text":
-                    text,
-
-                "collected_at_utc":
-                    collection_time
-            }
-        )
-
-    return records
-
-
-# ============================================================
-# SAVE CHECKPOINT
-# ============================================================
-
-def save_checkpoint(records):
+    if not records:
+        return
 
     df = pd.DataFrame(
         records
     )
 
-    if df.empty:
-        return
-
+    # One raw card per property URL
+    # for this search collection.
     df = df.drop_duplicates(
         subset=[
-            "source_url",
-            "card_text"
+            "source_url"
+        ],
+        keep="first"
+    )
+
+    df = df.sort_values(
+        [
+            "page_number",
+            "source_url"
         ]
     )
 
     df.to_csv(
-        RAW_CSV_FILE,
+        PROPERTY_CARDS_FILE,
         index=False,
         encoding="utf-8-sig"
     )
 
 
 # ============================================================
-# MAIN
+# SAVE COLLECTION REPORT
+# ============================================================
+
+def save_report(
+    report
+):
+
+    df = pd.DataFrame(
+        report
+    )
+
+    df.to_csv(
+        COLLECTION_REPORT_FILE,
+        index=False,
+        encoding="utf-8-sig"
+    )
+
+
+# ============================================================
+# MAIN COLLECTION
 # ============================================================
 
 def main():
 
     create_directories()
 
+    print()
+    print("=" * 75)
+    print("AUCKLAND SOLD PROPERTY COLLECTION")
+    print("=" * 75)
+
+    print(
+        f"Pages: "
+        f"{START_PAGE} → {END_PAGE}"
+    )
+
+    print(
+        "Raw HTML saving:",
+        SAVE_RAW_HTML
+    )
+
     driver = create_driver()
 
     all_records = []
+
+    report = []
+
+    previous_first_property = None
 
     try:
 
@@ -324,85 +539,300 @@ def main():
             )
 
             print()
-            print("=" * 70)
+            print("=" * 75)
+
             print(
                 f"PAGE {page_number}"
             )
-            print(page_url)
-            print("=" * 70)
 
-            # ----------------------------------------
-            # Open page
-            # ----------------------------------------
-
-            driver.get(
+            print(
                 page_url
             )
 
-            # ----------------------------------------
-            # Wait for page
-            # ----------------------------------------
+            print("=" * 75)
 
-            wait_for_property_cards(
-                driver
+            try:
+
+                # ===========================================
+                # OPEN PAGE
+                # ===========================================
+
+                driver.get(
+                    page_url
+                )
+
+                wait_for_results(
+                    driver
+                )
+
+                # Small buffer for late JavaScript rendering.
+                time.sleep(1)
+
+            except TimeoutException:
+
+                print(
+                    "ERROR: Page timed out."
+                )
+
+                report.append(
+                    {
+                        "page_number":
+                            page_number,
+
+                        "status":
+                            "TIMEOUT",
+
+                        "requested_url":
+                            page_url,
+
+                        "actual_url":
+                            driver.current_url,
+
+                        "viewing_text":
+                            None,
+
+                        "property_records":
+                            0,
+
+                        "unique_total":
+                            len({
+                                r["source_url"]
+                                for r in all_records
+                            }),
+                    }
+                )
+
+                save_report(
+                    report
+                )
+
+                continue
+
+            # ===============================================
+            # GET RENDERED HTML
+            # ===============================================
+
+            html = driver.execute_script(
+                """
+                return document
+                    .documentElement
+                    .outerHTML;
+                """
             )
 
-            # Small buffer for late rendering.
-            time.sleep(1)
+            # ===============================================
+            # OPTIONAL ARCHIVE
+            # ===============================================
 
-            # ----------------------------------------
-            # Save raw rendered HTML
-            # ----------------------------------------
-
-            html_file = save_html(
-                driver,
+            save_raw_html(
+                html,
                 page_number
             )
 
-            print(
-                "HTML saved:"
-            )
+            # ===============================================
+            # PARSE COMPLETE PROPERTY CARDS
+            # ===============================================
 
-            print(
-                html_file
-            )
-
-            # ----------------------------------------
-            # Extract cards
-            # ----------------------------------------
-
-            page_records = (
-                extract_property_cards(
-                    driver,
+            records = (
+                parse_rendered_html(
+                    html,
                     page_number,
                     page_url
                 )
             )
 
-            print(
-                "Property cards found:",
-                len(page_records)
+            actual_url = (
+                driver.current_url
             )
+
+            viewing_text = (
+                get_viewing_text(
+                    driver
+                )
+            )
+
+            print(
+                "Actual URL:"
+            )
+
+            print(
+                actual_url
+            )
+
+            print()
+
+            print(
+                "Page range:"
+            )
+
+            print(
+                viewing_text
+            )
+
+            print()
+
+            print(
+                "Property records:",
+                len(records)
+            )
+
+            # ===============================================
+            # PAGE DIAGNOSTICS
+            # ===============================================
+
+            first_property = None
+            last_property = None
+
+            if records:
+
+                first_property = (
+                    records[0][
+                        "source_url"
+                    ]
+                )
+
+                last_property = (
+                    records[-1][
+                        "source_url"
+                    ]
+                )
+
+                print()
+
+                print(
+                    "FIRST:"
+                )
+
+                print(
+                    records[0][
+                        "card_text"
+                    ][:200]
+                )
+
+                print()
+
+                print(
+                    "LAST:"
+                )
+
+                print(
+                    records[-1][
+                        "card_text"
+                    ][:200]
+                )
+
+            # ===============================================
+            # CHECK FOR REPEATED PAGE
+            # ===============================================
+
+            repeated_page = (
+                first_property
+                is not None
+                and
+                first_property
+                == previous_first_property
+            )
+
+            if repeated_page:
+
+                print()
+                print(
+                    "WARNING:"
+                    " This looks like the same "
+                    "page as the previous page."
+                )
+
+            previous_first_property = (
+                first_property
+            )
+
+            # ===============================================
+            # ADD RECORDS
+            # ===============================================
 
             all_records.extend(
-                page_records
+                records
             )
 
-            # ----------------------------------------
-            # Save after every page.
-            #
-            # This means a crash on page 100 does
-            # not destroy pages 1-99.
-            # ----------------------------------------
+            # ===============================================
+            # UNIQUE TOTAL
+            # ===============================================
 
-            save_checkpoint(
+            unique_urls = {
+                record["source_url"]
+                for record in all_records
+            }
+
+            unique_total = len(
+                unique_urls
+            )
+
+            print()
+
+            print(
+                "TOTAL UNIQUE PROPERTIES:",
+                unique_total
+            )
+
+            # ===============================================
+            # COLLECTION REPORT
+            # ===============================================
+
+            report.append(
+                {
+                    "page_number":
+                        page_number,
+
+                    "status":
+                        "OK",
+
+                    "requested_url":
+                        page_url,
+
+                    "actual_url":
+                        actual_url,
+
+                    "viewing_text":
+                        viewing_text,
+
+                    "property_records":
+                        len(records),
+
+                    "first_property":
+                        first_property,
+
+                    "last_property":
+                        last_property,
+
+                    "repeated_page":
+                        repeated_page,
+
+                    "unique_total":
+                        unique_total,
+                }
+            )
+
+            # ===============================================
+            # CHECKPOINT AFTER EVERY PAGE
+            # ===============================================
+
+            save_property_records(
                 all_records
             )
+
+            save_report(
+                report
+            )
+
+            # ===============================================
+            # DELAY
+            # ===============================================
 
             if (
                 page_number
                 < END_PAGE
             ):
+
                 time.sleep(
                     DELAY_SECONDS
                 )
@@ -412,44 +842,55 @@ def main():
         driver.quit()
 
     # ========================================================
-    # FINAL CLEAN RAW EXPORT
+    # FINAL SAVE
     # ========================================================
 
-    df = pd.DataFrame(
+    save_property_records(
         all_records
     )
 
-    df = df.drop_duplicates(
-        subset=[
-            "source_url",
-            "card_text"
-        ]
+    save_report(
+        report
     )
 
-    df.to_csv(
-        RAW_CSV_FILE,
-        index=False,
-        encoding="utf-8-sig"
+    unique_total = len({
+        record["source_url"]
+        for record in all_records
+    })
+
+    print()
+    print("=" * 75)
+    print("COLLECTION FINISHED")
+    print("=" * 75)
+
+    print(
+        "Pages requested:",
+        END_PAGE - START_PAGE + 1
+    )
+
+    print(
+        "Unique properties:",
+        unique_total
     )
 
     print()
-    print("=" * 70)
-    print("RAW COLLECTION FINISHED")
-    print("=" * 70)
 
     print(
-        "Property records:",
-        len(df)
+        "Property data:"
+    )
+
+    print(
+        PROPERTY_CARDS_FILE
     )
 
     print()
 
     print(
-        "Raw CSV:"
+        "Collection report:"
     )
 
     print(
-        RAW_CSV_FILE
+        COLLECTION_REPORT_FILE
     )
 
 
