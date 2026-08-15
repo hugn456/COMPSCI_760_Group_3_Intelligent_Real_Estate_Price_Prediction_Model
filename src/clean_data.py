@@ -69,8 +69,8 @@ REQUIRED_COLUMNS = {
 
 def normalise_space(value):
     """
-    Convert repeated spaces, tabs and newlines into
-    a single space.
+    Replace repeated spaces, newlines and tabs
+    with one normal space.
     """
 
     if not isinstance(value, str):
@@ -89,16 +89,16 @@ def normalise_space(value):
 
 def extract_property_id(url):
     """
-    Extract the property ID from the last part of a
-    realestate.co.nz property URL.
+    Extract the property ID from the final part
+    of the property URL.
 
     Example:
 
-    https://www.realestate.co.nz/property/.../abc123
+    https://www.realestate.co.nz/property/.../0gv38b8zc
 
     becomes:
 
-    abc123
+    0gv38b8zc
     """
 
     if not isinstance(url, str):
@@ -130,9 +130,15 @@ def extract_property_id(url):
 
 def extract_sale_date(text):
     """
-    Extract only a date explicitly labelled:
+    Extract only an explicitly labelled sale date.
 
-        Last sold on DD/MM/YYYY
+    Example:
+
+    Last sold on 08/07/2026
+
+    becomes:
+
+    2026-07-08
     """
 
     if not isinstance(text, str):
@@ -161,17 +167,19 @@ def extract_sale_date(text):
 
 def extract_sale_price(text):
     """
-    Extract ONLY an actual value explicitly labelled:
+    Extract ONLY a price explicitly labelled:
 
-        $1,250,000 (last sale price)
+        (last sale price)
 
-    We deliberately ignore arbitrary dollar values because
-    they could be:
+    Example:
 
-        - CV
-        - estimated value
-        - nearby sale
-        - other non-target values
+        $525,000 (last sale price)
+
+    becomes:
+
+        525000
+
+    Arbitrary dollar values are deliberately ignored.
     """
 
     if not isinstance(text, str):
@@ -201,27 +209,26 @@ def extract_sale_price(text):
 
 
 # ============================================================
-# LAND AREA
+# AREA EXTRACTION
 # ============================================================
 
-def extract_land_area(text):
+def get_area_matches(text):
     """
-    Extract land area and convert it to square metres.
+    Return every area-like value from the card.
 
-    Supported examples:
+    Supports:
 
-        332m²
-        332 m²
-        332m2
-        1.1ha
-        1.1 ha
-        17.1ha
+        506m²
+        506 m²
+        506m2
+        1.2ha
+        17.1 ha
     """
 
     if not isinstance(text, str):
-        return None
+        return []
 
-    matches = list(
+    return list(
         re.finditer(
             r"(\d[\d,]*(?:\.\d+)?)"
             r"\s*"
@@ -231,10 +238,28 @@ def extract_land_area(text):
         )
     )
 
+
+def extract_land_area(text):
+    """
+    Extract the final area value and convert
+    hectares to square metres.
+
+    The rendered DOM can contain duplicates such as:
+
+        506m² 506m²
+
+    Taking the final value still gives:
+
+        506
+    """
+
+    matches = get_area_matches(
+        text
+    )
+
     if not matches:
         return None
 
-    # Use the final area value shown in the result card.
     match = matches[-1]
 
     try:
@@ -254,96 +279,91 @@ def extract_land_area(text):
     )
 
     if unit == "ha":
-        return value * 10_000
+
+        return (
+            value
+            * 10_000
+        )
 
     return value
 
 
 # ============================================================
-# REMOVE NON-PROPERTY METADATA
+# REMOVE WEBSITE UI / SALE METADATA
 # ============================================================
 
 def remove_sale_metadata(text):
     """
-    Convert something like:
+    Example raw card:
 
-        Last sold on 20/07/2026
-        15 Picasso Drive, West Harbour
-        3 2 693m²
-        $1,411,000 (last sale price)
+    Sold share Share this listing star Save this property
+    Last sold on 08/07/2026
+    203 Parkhurst Road, Parakai
+    2 2 1 1
+    506m² 506m²
+    $525,000 (last sale price)
 
-    approximately into:
+    becomes approximately:
 
-        15 Picasso Drive, West Harbour 3 2
-
-    Also handles:
-
-        Recently sold
-        148A Aviemore Drive, Highland Park
-        3 332m²Price is not yet confirmed
+    203 Parkhurst Road, Parakai 2 2 1 1
     """
 
     clean = normalise_space(
         text
     )
 
-    # --------------------------------------------------------
-    # Remove possible UI labels at beginning
-    # --------------------------------------------------------
+    # ========================================================
+    # CONFIRMED/HISTORICAL SALE
+    # ========================================================
+
+    sold_match = re.search(
+        r"Last\s+sold\s+on\s+"
+        r"\d{1,2}/\d{1,2}/\d{4}",
+        clean,
+        re.IGNORECASE
+    )
+
+    if sold_match:
+
+        # Discard website UI text before the sale date.
+        clean = clean[
+            sold_match.end():
+        ].strip()
+
+    else:
+
+        # ====================================================
+        # RECENT / UNCONFIRMED SALE
+        # ====================================================
+
+        recent_match = re.search(
+            r"Recently\s+sold",
+            clean,
+            re.IGNORECASE
+        )
+
+        if recent_match:
+
+            clean = clean[
+                recent_match.end():
+            ].strip()
+
+    # ========================================================
+    # REMOVE "PRICE IS NOT YET CONFIRMED"
+    # ========================================================
 
     clean = re.sub(
-        r"^(?:(?:Sold|Save\s+this\s+property)\s+)*",
+        r"\s*"
+        r"Price\s+is\s+not\s+yet\s+confirmed"
+        r".*$",
         "",
         clean,
         flags=re.IGNORECASE
     )
 
-    # --------------------------------------------------------
-    # Recently sold
-    # --------------------------------------------------------
-
-    clean = re.sub(
-        r"^Recently\s+sold\s*",
-        "",
-        clean,
-        flags=re.IGNORECASE
-    )
-
-    # --------------------------------------------------------
-    # Last sold date
-    # --------------------------------------------------------
-
-    clean = re.sub(
-        r"^Last\s+sold\s+on\s+"
-        r"\d{1,2}/\d{1,2}/\d{4}"
-        r"\s*",
-        "",
-        clean,
-        flags=re.IGNORECASE
-    )
-
-    # --------------------------------------------------------
-    # Unconfirmed price
-    #
-    # Handles both:
-    #
-    # 332m² Price is not yet confirmed
-    #
-    # and
-    #
-    # 332m²Price is not yet confirmed
-    # --------------------------------------------------------
-
-    clean = re.sub(
-        r"\s*Price\s+is\s+not\s+yet\s+confirmed.*$",
-        "",
-        clean,
-        flags=re.IGNORECASE
-    )
-
-    # --------------------------------------------------------
-    # Confirmed last sale price
-    # --------------------------------------------------------
+    # ========================================================
+    # REMOVE CONFIRMED SALE PRICE
+    # ========================================================
 
     clean = re.sub(
         r"\s*"
@@ -356,15 +376,25 @@ def remove_sale_metadata(text):
         flags=re.IGNORECASE
     )
 
-    # --------------------------------------------------------
-    # Land area
-    # --------------------------------------------------------
+    # ========================================================
+    # REMOVE ONE OR MORE AREA VALUES FROM THE END
+    #
+    # Handles:
+    #
+    #     506m²
+    #
+    # and:
+    #
+    #     506m² 506m²
+    # ========================================================
 
     clean = re.sub(
+        r"(?:"
         r"\s*"
         r"\d[\d,]*(?:\.\d+)?"
         r"\s*"
         r"(?:m²|m2|ha)"
+        r")+"
         r"\s*$",
         "",
         clean,
@@ -377,40 +407,116 @@ def remove_sale_metadata(text):
 
 
 # ============================================================
-# ADDRESS / SUBURB / BEDROOMS / BATHROOMS
+# NUMERIC DOM DEDUPLICATION
+# ============================================================
+
+def deduplicate_numeric_pairs(numbers):
+    """
+    Deduplicate adjacent repeated pairs.
+
+    Examples:
+
+        [2, 2, 1, 1]
+        ->
+        [2, 1]
+
+        [4, 4, 2, 2]
+        ->
+        [4, 2]
+
+        [3, 3, 2, 2, 1, 1]
+        ->
+        [3, 2, 1]
+
+    If the sequence is NOT made entirely from
+    duplicated adjacent pairs, leave it unchanged.
+
+    Example:
+
+        [4, 2]
+        ->
+        [4, 2]
+    """
+
+    if not numbers:
+
+        return numbers
+
+    # Complete duplicated pairs require an even
+    # number of values.
+    if len(numbers) % 2 != 0:
+
+        return numbers
+
+    result = []
+
+    for index in range(
+        0,
+        len(numbers),
+        2
+    ):
+
+        first = (
+            numbers[index]
+        )
+
+        second = (
+            numbers[index + 1]
+        )
+
+        if first != second:
+
+            # Not a duplicate-pair pattern.
+            return numbers
+
+        result.append(
+            first
+        )
+
+    return result
+
+
+# ============================================================
+# ADDRESS / SUBURB / BEDROOM / BATHROOM
 # ============================================================
 
 def parse_location_attributes(text):
     """
-    Parse the remaining result-card text.
+    Parse address, suburb, bedrooms and bathrooms.
 
-    Example:
+    Example raw rendered card:
 
-        148A Aviemore Drive, Highland Park 3
-
-    becomes:
-
-        address      = 148A Aviemore Drive
-        suburb       = Highland Park
-        bedrooms     = 3
-        bathrooms    = missing
-
-
-    Example:
-
-        6/24 Andrew Road, Howick 2 1
+        Sold ...
+        Last sold on 08/07/2026
+        203 Parkhurst Road, Parakai
+        2 2 1 1
+        506m² 506m²
+        $525,000 (last sale price)
 
     becomes:
 
-        address      = 6/24 Andrew Road
-        suburb       = Howick
-        bedrooms     = 2
-        bathrooms    = 1
+        address   = 203 Parkhurst Road
+        suburb    = Parakai
+        bedrooms  = 2
+        bathrooms = 1
 
 
-    Bedroom/bathroom values are inferred from the current
-    sold-card ordering, so the parsing method is explicitly
-    recorded in the output for data provenance.
+    IMPORTANT:
+
+    We deduplicate ONLY when there are at least
+    FOUR trailing numeric values.
+
+    Therefore:
+
+        2 2 1 1
+        -> 2 bedrooms, 1 bathroom
+
+    but:
+
+        2 2
+        -> 2 bedrooms, 2 bathrooms
+
+    because two values alone are ambiguous.
     """
 
     clean = remove_sale_metadata(
@@ -421,11 +527,29 @@ def parse_location_attributes(text):
 
         return pd.Series(
             {
-                "address": None,
-                "suburb": None,
-                "bedrooms": None,
-                "bathrooms": None,
-                "extra_trailing_numeric_count": 0,
+                "address":
+                    None,
+
+                "suburb":
+                    None,
+
+                "bedrooms":
+                    None,
+
+                "bathrooms":
+                    None,
+
+                "raw_trailing_numbers":
+                    None,
+
+                "numeric_values_deduplicated":
+                    False,
+
+                "extra_trailing_numeric_count":
+                    0,
+
+                "ambiguous_equal_pair":
+                    False,
             }
         )
 
@@ -433,49 +557,138 @@ def parse_location_attributes(text):
 
     trailing_numbers = []
 
-    # --------------------------------------------------------
-    # Remove up to four trailing standalone integers.
-    #
-    # Normally:
-    #
-    #   first  = bedrooms
-    #   second = bathrooms
-    #
-    # Extra values are recorded rather than silently ignored.
-    # --------------------------------------------------------
+    # ========================================================
+    # EXTRACT TRAILING INTEGER VALUES
+    # ========================================================
 
     while (
         tokens
-        and len(trailing_numbers) < 4
-        and re.fullmatch(
+        and
+        len(trailing_numbers) < 8
+        and
+        re.fullmatch(
             r"\d+",
             tokens[-1]
         )
     ):
 
         trailing_numbers.append(
-            int(tokens.pop())
+            int(
+                tokens.pop()
+            )
         )
 
+    # Values were collected from right to left.
     trailing_numbers.reverse()
+
+    original_numbers = (
+        trailing_numbers.copy()
+    )
+
+    numeric_values_deduplicated = (
+        False
+    )
+
+    # ========================================================
+    # SAFE DOM DEDUPLICATION
+    # ========================================================
+
+    if (
+        len(trailing_numbers) >= 4
+        and
+        len(trailing_numbers) % 2 == 0
+    ):
+
+        deduplicated = (
+            deduplicate_numeric_pairs(
+                trailing_numbers
+            )
+        )
+
+        if (
+            deduplicated
+            != trailing_numbers
+        ):
+
+            trailing_numbers = (
+                deduplicated
+            )
+
+            numeric_values_deduplicated = (
+                True
+            )
+
+    # ========================================================
+    # AMBIGUOUS TWO-VALUE CASE
+    #
+    # Example:
+    #
+    #     2 2
+    #
+    # This might genuinely mean:
+    #
+    #     2 bedrooms
+    #     2 bathrooms
+    #
+    # so DO NOT deduplicate it.
+    #
+    # We simply flag it for provenance/review.
+    # ========================================================
+
+    ambiguous_equal_pair = (
+        len(original_numbers) == 2
+        and
+        original_numbers[0]
+        == original_numbers[1]
+    )
+
+    # ========================================================
+    # BEDROOM / BATHROOM
+    # ========================================================
 
     bedrooms = None
     bathrooms = None
 
     if len(trailing_numbers) >= 1:
-        bedrooms = trailing_numbers[0]
+
+        bedrooms = (
+            trailing_numbers[0]
+        )
 
     if len(trailing_numbers) >= 2:
-        bathrooms = trailing_numbers[1]
+
+        bathrooms = (
+            trailing_numbers[1]
+        )
+
+    # ========================================================
+    # ANY ADDITIONAL NUMERIC VALUES
+    #
+    # Example:
+    #
+    #     3 3 2 2 1 1
+    #
+    # becomes:
+    #
+    #     3 2 1
+    #
+    # We use:
+    #
+    #     bedrooms  = 3
+    #     bathrooms = 2
+    #
+    # and flag the remaining "1" rather than
+    # guessing what it represents.
+    # ========================================================
 
     extra_numeric_count = max(
         len(trailing_numbers) - 2,
         0
     )
 
-    # --------------------------------------------------------
-    # Remaining tokens should be location text
-    # --------------------------------------------------------
+    # ========================================================
+    # ADDRESS / SUBURB
+    # ========================================================
 
     location = " ".join(
         tokens
@@ -507,6 +720,22 @@ def parse_location_attributes(text):
 
         address = location
 
+    # ========================================================
+    # SAVE ORIGINAL NUMERIC VALUES FOR DEBUGGING
+    # ========================================================
+
+    raw_numbers_text = None
+
+    if original_numbers:
+
+        raw_numbers_text = (
+            " ".join(
+                str(number)
+                for number
+                in original_numbers
+            )
+        )
+
     return pd.Series(
         {
             "address":
@@ -521,8 +750,17 @@ def parse_location_attributes(text):
             "bathrooms":
                 bathrooms,
 
+            "raw_trailing_numbers":
+                raw_numbers_text,
+
+            "numeric_values_deduplicated":
+                numeric_values_deduplicated,
+
             "extra_trailing_numeric_count":
                 extra_numeric_count,
+
+            "ambiguous_equal_pair":
+                ambiguous_equal_pair,
         }
     )
 
@@ -533,26 +771,35 @@ def parse_location_attributes(text):
 
 def create_property_key(row):
     """
-    Create a reliable deduplication key.
+    Create a stable property identifier.
 
-    Normally property_id is used.
+    Primary choice:
 
-    If property_id parsing ever fails, fall back to the
-    source URL rather than treating all missing IDs as the
-    same property.
+        property_id
+
+    Fallback:
+
+        source_url
+
+    Final defensive fallback:
+
+        address + suburb
     """
 
-    property_id = row.get(
-        "property_id"
+    property_id = (
+        row.get(
+            "property_id"
+        )
     )
 
     if pd.notna(
         property_id
     ):
 
-        property_id = str(
-            property_id
-        ).strip()
+        property_id = (
+            str(property_id)
+            .strip()
+        )
 
         if property_id:
 
@@ -560,22 +807,26 @@ def create_property_key(row):
                 f"id:{property_id}"
             )
 
-    source_url = row.get(
-        "source_url"
+    source_url = (
+        row.get(
+            "source_url"
+        )
     )
 
     if pd.notna(
         source_url
     ):
 
-        source_url = str(
-            source_url
-        ).strip()
+        source_url = (
+            str(source_url)
+            .strip()
+        )
 
         if source_url:
 
             return (
-                f"url:{source_url.lower()}"
+                f"url:"
+                f"{source_url.lower()}"
             )
 
     address = (
@@ -612,8 +863,8 @@ def create_property_key(row):
 
 def property_quality_score(row):
     """
-    When the same property appears more than once,
-    prefer the record containing the most usable fields.
+    When several observations exist for the same
+    property, prefer the most complete property record.
     """
 
     score = 0
@@ -653,13 +904,13 @@ def main():
     )
 
     # ========================================================
-    # CHECK RAW DATA EXISTS
+    # CHECK RAW INPUT
     # ========================================================
 
     if not RAW_FILE.exists():
 
         raise FileNotFoundError(
-            "\nCannot find:\n"
+            "\nCannot find raw data:\n"
             f"{RAW_FILE}\n\n"
             "Run collect_raw.py first."
         )
@@ -672,6 +923,10 @@ def main():
         RAW_FILE
     )
 
+    raw_row_count = len(
+        df
+    )
+
     print()
     print("=" * 70)
     print("CLEANING PROPERTY DATA")
@@ -679,11 +934,11 @@ def main():
 
     print(
         "Raw rows:",
-        len(df)
+        raw_row_count
     )
 
     # ========================================================
-    # VALIDATE INPUT SCHEMA
+    # VALIDATE RAW SCHEMA
     # ========================================================
 
     missing_columns = (
@@ -700,7 +955,7 @@ def main():
         )
 
     # ========================================================
-    # CLEAN RAW TEXT
+    # NORMALISE RAW CARD TEXT
     # ========================================================
 
     df["card_text"] = (
@@ -710,7 +965,7 @@ def main():
         )
     )
 
-    # Remove blank cards.
+    # Remove empty cards.
     df = df[
         df["card_text"] != ""
     ].copy()
@@ -727,7 +982,7 @@ def main():
     )
 
     # ========================================================
-    # ADDRESS / SUBURB / BEDROOM / BATHROOM
+    # ADDRESS / SUBURB / BED / BATH
     # ========================================================
 
     parsed = (
@@ -742,6 +997,7 @@ def main():
             df.reset_index(
                 drop=True
             ),
+
             parsed.reset_index(
                 drop=True
             ),
@@ -749,9 +1005,9 @@ def main():
         axis=1
     )
 
-    # Record how bed/bath was derived.
+    # Record how these attributes were generated.
     df["bed_bath_parse_method"] = (
-        "sold_card_trailing_numbers"
+        "sold_card_trailing_numbers_safe_dom_deduplication"
     )
 
     # ========================================================
@@ -769,7 +1025,9 @@ def main():
     # REGION
     # ========================================================
 
-    df["region"] = "Auckland"
+    df["region"] = (
+        "Auckland"
+    )
 
     # ========================================================
     # LAND AREA
@@ -783,7 +1041,7 @@ def main():
     )
 
     # ========================================================
-    # TRANSACTION FIELDS
+    # TRANSACTION INFORMATION
     # ========================================================
 
     df["sale_date"] = (
@@ -800,7 +1058,8 @@ def main():
         )
     )
 
-    # A usable confirmed transaction needs BOTH.
+    # A confirmed target requires BOTH an actual date
+    # and an explicitly labelled last-sale price.
     df["price_confirmed"] = (
         df["sale_date"]
         .notna()
@@ -879,9 +1138,9 @@ def main():
     )
 
     # ========================================================
-    # SANITY / VALIDATION FLAGS
+    # VALIDATION FLAGS
     #
-    # These flags DO NOT automatically delete the row.
+    # Do NOT automatically remove these records.
     # ========================================================
 
     df["invalid_bedrooms"] = (
@@ -889,7 +1148,7 @@ def main():
         .notna()
         &
         (
-            (df["bedrooms"] < 0)
+            (df["bedrooms"] <= 0)
             |
             (df["bedrooms"] > 30)
         )
@@ -900,7 +1159,7 @@ def main():
         .notna()
         &
         (
-            (df["bathrooms"] < 0)
+            (df["bathrooms"] <= 0)
             |
             (df["bathrooms"] > 30)
         )
@@ -926,6 +1185,8 @@ def main():
         )
     )
 
+    # Additional numeric values after bedroom/bathroom
+    # need review rather than guessing their meaning.
     df["bed_bath_parse_warning"] = (
         df[
             "extra_trailing_numeric_count"
@@ -937,20 +1198,22 @@ def main():
     # REMOVE EXACT DUPLICATE OBSERVATIONS
     # ========================================================
 
-    df = df.drop_duplicates(
-        subset=[
-            "source_url",
-            "sale_date",
-            "sale_price",
-            "card_text",
-        ],
-        keep="first"
-    ).copy()
+    df = (
+        df
+        .drop_duplicates(
+            subset=[
+                "source_url",
+                "sale_date",
+                "sale_price",
+                "card_text",
+            ],
+            keep="first"
+        )
+        .copy()
+    )
 
     # ========================================================
-    # OUTPUT 1
-    #
-    # ALL PARSED RECORDS
+    # COLUMN ORDER USED BY ALL_PROPERTIES AND TRANSACTIONS
     # ========================================================
 
     all_columns = [
@@ -975,6 +1238,10 @@ def main():
         "collected_at_utc",
 
         "bed_bath_parse_method",
+
+        "raw_trailing_numbers",
+        "numeric_values_deduplicated",
+        "ambiguous_equal_pair",
         "extra_trailing_numeric_count",
 
         "missing_property_id",
@@ -994,9 +1261,17 @@ def main():
         "card_text",
     ]
 
-    all_df = df[
-        all_columns
-    ].copy()
+    # ========================================================
+    # OUTPUT 1:
+    # ALL PARSED PROPERTY CARDS
+    # ========================================================
+
+    all_df = (
+        df[
+            all_columns
+        ]
+        .copy()
+    )
 
     all_df.to_csv(
         ALL_PROPERTIES_FILE,
@@ -1005,33 +1280,41 @@ def main():
     )
 
     # ========================================================
-    # OUTPUT 2
-    #
-    # CONFIRMED ACTUAL TRANSACTIONS ONLY
+    # OUTPUT 2:
+    # CONFIRMED ACTUAL TRANSACTIONS
     # ========================================================
 
-    confirmed = df[
-        df["price_confirmed"]
-    ].copy()
+    confirmed = (
+        df[
+            df[
+                "price_confirmed"
+            ]
+        ]
+        .copy()
+    )
 
     # Remove impossible targets only.
-    #
-    # We are NOT removing legitimate expensive/cheap
-    # properties here. Outlier analysis belongs later.
-    confirmed = confirmed[
-        ~confirmed[
-            "invalid_sale_price"
+    confirmed = (
+        confirmed[
+            ~confirmed[
+                "invalid_sale_price"
+            ]
         ]
-    ].copy()
+        .copy()
+    )
 
-    # One identical sale should appear only once.
-    confirmed = confirmed.drop_duplicates(
-        subset=[
-            "property_key",
-            "sale_date",
-            "sale_price",
-        ],
-        keep="first"
+    # Remove repeated copies of the same transaction.
+    confirmed = (
+        confirmed
+        .drop_duplicates(
+            subset=[
+                "property_key",
+                "sale_date",
+                "sale_price",
+            ],
+            keep="first"
+        )
+        .copy()
     )
 
     confirmed[
@@ -1043,9 +1326,8 @@ def main():
     )
 
     # ========================================================
-    # OUTPUT 3
-    #
-    # UNIQUE PROPERTY TABLE
+    # OUTPUT 3:
+    # ONE ROW PER UNIQUE PROPERTY
     # ========================================================
 
     property_candidates = (
@@ -1055,16 +1337,15 @@ def main():
     property_candidates[
         "property_quality_score"
     ] = (
-        property_candidates.apply(
+        property_candidates
+        .apply(
             property_quality_score,
             axis=1
         )
     )
 
-    # Prefer:
-    #
-    # 1. record with most property attributes
-    # 2. latest collection if quality is tied
+    # Prefer the most complete property record.
+    # If tied, prefer the latest collection.
     property_candidates = (
         property_candidates
         .sort_values(
@@ -1095,7 +1376,10 @@ def main():
                 "land_area_m2",
 
                 "source_url",
+
                 "bed_bath_parse_method",
+                "numeric_values_deduplicated",
+                "ambiguous_equal_pair",
             ]
         ]
         .drop_duplicates(
@@ -1124,7 +1408,7 @@ def main():
 
     print(
         "Raw rows:",
-        len(pd.read_csv(RAW_FILE))
+        raw_row_count
     )
 
     print(
@@ -1139,13 +1423,12 @@ def main():
 
     print(
         "Unconfirmed records:",
-        (
-            len(all_df)
-            - len(
-                df[
-                    df["price_confirmed"]
+        int(
+            (
+                ~all_df[
+                    "price_confirmed"
                 ]
-            )
+            ).sum()
         )
     )
 
@@ -1153,6 +1436,10 @@ def main():
         "Unique properties:",
         len(properties)
     )
+
+    # ========================================================
+    # MISSING FEATURES
+    # ========================================================
 
     print()
     print("-" * 70)
@@ -1213,6 +1500,46 @@ def main():
         )
     )
 
+    # ========================================================
+    # PARSER INFORMATION
+    # ========================================================
+
+    print()
+    print("-" * 70)
+    print("PARSER INFORMATION")
+    print("-" * 70)
+
+    print(
+        "DOM-deduplicated rows:",
+        int(
+            all_df[
+                "numeric_values_deduplicated"
+            ].sum()
+        )
+    )
+
+    print(
+        "Ambiguous equal pairs:",
+        int(
+            all_df[
+                "ambiguous_equal_pair"
+            ].sum()
+        )
+    )
+
+    print(
+        "Bed/bath parse warnings:",
+        int(
+            all_df[
+                "bed_bath_parse_warning"
+            ].sum()
+        )
+    )
+
+    # ========================================================
+    # VALIDATION INFORMATION
+    # ========================================================
+
     print()
     print("-" * 70)
     print("VALIDATION WARNINGS")
@@ -1254,14 +1581,9 @@ def main():
         )
     )
 
-    print(
-        "Bed/bath parse warnings:",
-        int(
-            all_df[
-                "bed_bath_parse_warning"
-            ].sum()
-        )
-    )
+    # ========================================================
+    # FILES CREATED
+    # ========================================================
 
     print()
     print("-" * 70)
