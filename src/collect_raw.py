@@ -26,7 +26,7 @@ BASE_URL = (
 # Page 1-2 ≈ 40 property cards.
 # --------------------------------------------
 
-START_PAGE = 60
+START_PAGE = 1
 END_PAGE = 80
 
 WAIT_TIMEOUT = 30
