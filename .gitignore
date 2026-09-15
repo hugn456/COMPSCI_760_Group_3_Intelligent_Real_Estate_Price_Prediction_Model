@@ -1,4 +1,9 @@
 .claude/
 *.txt
+!requirements.txt
 *.csv
 *.xlsx
+.venv/
+__pycache__/
+glam-deps/
+hazard_data/
