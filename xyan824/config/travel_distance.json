@@ -1,0 +1,39 @@
+{
+  "input": "data/private/dvrs_processed.parquet",
+  "facilities": "data/processed/amenities_points.parquet",
+  "retail_snapshot_bounds_wsen": [
+    174.166651611328,
+    -37.3826152038574,
+    175.360646362305,
+    -36.1334484863281
+  ],
+  "modes": [
+    "walk",
+    "drive"
+  ],
+  "categories": [
+    "supermarket",
+    "bus_stop"
+  ],
+  "pilot_bbox_wsen": [
+    174.64,
+    -36.99,
+    174.91,
+    -36.76
+  ],
+  "buffer_m": 5000,
+  "pilot_size": 300,
+  "seed": 760,
+  "max_snap_m": {
+    "walk": 150,
+    "drive": 200
+  },
+  "overpass_url": "https://overpass.private.coffee/api",
+  "network_source": "pbf",
+  "compact_network": true,
+  "pbf_path": "data/raw/travel_network/new-zealand-latest.osm.pbf",
+  "request_timeout_seconds": 180,
+  "graph_wall_timeout_seconds": 900,
+  "simplify": false,
+  "notes": "Snap limits are provisional QA limits, not accuracy guarantees. All distances are between snapped nodes."
+}

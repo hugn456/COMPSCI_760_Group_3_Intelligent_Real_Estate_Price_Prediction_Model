@@ -1,0 +1,17 @@
+{
+  "feature_bands_km": {
+    "supermarket": [
+      1,
+      2,
+      5
+    ],
+    "bus_stop": [
+      0.5,
+      1
+    ]
+  },
+  "presence_thresholds_km": {
+    "supermarket": 1,
+    "bus_stop": 0.5
+  }
+}
