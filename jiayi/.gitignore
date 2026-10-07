@@ -1,0 +1,21 @@
+# Keep all private inputs, public-source caches and generated artifacts local.
+data/
+metadata/
+reports/
+.venv/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+*.parquet
+*.csv
+*.geojson
+*.gpkg
+*.shp
+*.dbf
+*.shx
+*.zip
+*.pbf
+*.joblib
+*.png
+*.pdf
+.env*

@@ -75,3 +75,7 @@ Jay's calculation code and setup instructions are available on the [`xyan824` br
 | Xiang Yang (Jay) | Walking/driving network-distance calculation, additional-data comparisons, reruns with the proposed filters, and presentation contributions |
 
 The literature survey and preliminary presentation are separate deliverables. This README summarises project progress; it does not claim that the final evaluation or all proposed experiments are complete.
+
+## Jiayi / Wendy feature-processing code
+
+[Aircraft noise and residential building-consent pipeline](jiayi/README.md), with source preparation, spatial/temporal linkage, safe merging and offline synthetic tests. This branch includes code and documentation only; inputs, caches and generated outputs are shared privately.
