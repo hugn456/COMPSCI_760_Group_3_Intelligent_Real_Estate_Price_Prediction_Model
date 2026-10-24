@@ -1,0 +1,32 @@
+{
+    "latex-workshop.latex.tools": [
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": ["%DOCFILE%"]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "pdflatex -> bibtex -> pdflatex*2 (no Perl needed)",
+            "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
+        }
+    ],
+    "latex-workshop.latex.recipe.default": "pdflatex -> bibtex -> pdflatex*2 (no Perl needed)",
+    "latex-workshop.latex.autoBuild.run": "onFileChange",
+    "latex-workshop.latex.clean.fileTypes": [
+        "*.aux", "*.bbl", "*.blg", "*.fdb_latexmk", "*.fls",
+        "*.log", "*.out", "*.synctex.gz"
+    ],
+    "latex-workshop.view.pdf.viewer": "tab"
+}
