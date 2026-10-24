@@ -1,6 +1,7 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.10.23)  24 OCT 2026 22:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.10.23)  24 OCT 2026 23:32
 entering extended mode
  restricted \write18 enabled.
+ file:line:error style messages enabled.
  %&-line parsing enabled.
 **./main.tex
 (main.tex
@@ -782,69 +783,63 @@ AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 260--260
+Underfull \hbox (badness 10000) in paragraph at lines 266--266
 [][][][][]$\OT1/ptm/m/n/8 https : / / github . com / hugn456 / COMPSCI[]760[]Gr
 oup[]3[]Intelligent[]Real[]
  []
 
-
-Underfull \hbox (badness 3977) in paragraph at lines 332--342
+[2]
+Underfull \hbox (badness 3977) in paragraph at lines 338--348
 []\OT1/ptm/m/n/10 We there-fore used prob-a-bilis-tic record link-age with
  []
 
 
-Underfull \hbox (badness 3514) in paragraph at lines 332--342
+Underfull \hbox (badness 3514) in paragraph at lines 338--348
 \OT1/ptm/m/n/10 Splink [[]9[]], [[]22[]], which im-ple-ments the Fellegi--Sunte
 r
  []
 
-[2]
-Underfull \vbox (badness 1067) has occurred while \output is active []
-
- [3]
-Underfull \hbox (badness 10000) in paragraph at lines 462--463
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
 []\OT1/ptm/m/n/8 OSM [[]25[]],
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 465--466
+Underfull \hbox (badness 10000) in paragraph at lines 470--471
 \OT1/ptm/m/n/8 un-em-ploy-ment, pop-u-la-tion,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 504--504
+Underfull \hbox (badness 10000) in paragraph at lines 509--509
 []\OT1/ptm/m/n/8 Building ac-tiv-ity
  []
 
-<../figures/timeseries_split.png, id=241, 787.38165pt x 231.62535pt>
+<../figures/timeseries_split.png, id=241, 787.38165pt x 225.84375pt>
 File: ../figures/timeseries_split.png Graphic file (type png)
 <use ../figures/timeseries_split.png>
-Package pdftex.def Info: ../figures/timeseries_split.png  used on input line 54
-9.
-(pdftex.def)             Requested size: 252.0pt x 74.12868pt.
+Package pdftex.def Info: ../figures/timeseries_split.png  used on input line 55
+4.
+(pdftex.def)             Requested size: 252.0pt x 72.27835pt.
 [4] [5 <../figures/timeseries_split.png>]
-Underfull \hbox (badness 1990) in paragraph at lines 693--699
+Underfull \hbox (badness 1990) in paragraph at lines 705--711
 []\OT1/ptm/m/n/10 To test the sec-ond half of RQ2, we com-pared our
  []
 
-<../figures/baseline_vs_augmented_metrics.png, id=294, 513.117pt x 164.7756pt>
+<../figures/baseline_vs_augmented_metrics.png, id=295, 513.117pt x 164.7756pt>
 File: ../figures/baseline_vs_augmented_metrics.png Graphic file (type png)
 <use ../figures/baseline_vs_augmented_metrics.png>
 Package pdftex.def Info: ../figures/baseline_vs_augmented_metrics.png  used on 
-input line 761.
+input line 773.
 (pdftex.def)             Requested size: 252.0pt x 80.92427pt.
 [6 <../figures/baseline_vs_augmented_metrics.png>]
-<../figures/shap_xgboost_fold5.png, id=308, 500.8311pt x 368.0952pt>
+<../figures/shap_xgboost_fold5.png, id=309, 500.8311pt x 368.0952pt>
 File: ../figures/shap_xgboost_fold5.png Graphic file (type png)
 <use ../figures/shap_xgboost_fold5.png>
 Package pdftex.def Info: ../figures/shap_xgboost_fold5.png  used on input line 
-837.
+849.
 (pdftex.def)             Requested size: 252.0pt x 185.2098pt.
-
-Underfull \vbox (badness 4048) has occurred while \output is active []
-
  [7 <../figures/shap_xgboost_fold5.png>]
-Underfull \hbox (badness 6204) in paragraph at lines 935--937
+Underfull \hbox (badness 6204) in paragraph at lines 950--952
 \OT1/ptm/m/n/10 out-weighs its 16.9 km dis-tance from the CBD
  []
 
@@ -852,25 +847,23 @@ Underfull \hbox (badness 6204) in paragraph at lines 935--937
 File: ../figures/house_explanation.png Graphic file (type png)
 <use ../figures/house_explanation.png>
 Package pdftex.def Info: ../figures/house_explanation.png  used on input line 9
-50.
+66.
 (pdftex.def)             Requested size: 252.0pt x 147.0926pt.
 <../figures/online_valuation_per_home_report.png, id=329, 239.4546pt x 157.7895
 pt>
 File: ../figures/online_valuation_per_home_report.png Graphic file (type png)
 <use ../figures/online_valuation_per_home_report.png>
 Package pdftex.def Info: ../figures/online_valuation_per_home_report.png  used 
-on input line 991.
+on input line 1007.
 (pdftex.def)             Requested size: 252.0pt x 166.05464pt.
-[8 <../figures/house_explanation.png>]
-Underfull \vbox (badness 1701) has occurred while \output is active []
-
- [9 <../figures/online_valuation_per_home_report.png>] (main.bbl
+[8 <../figures/house_explanation.png>] [9 <../figures/online_valuation_per_home
+_report.png>] (main.bbl
 Underfull \hbox (badness 2608) in paragraph at lines 215--217
 []\OT1/ptm/m/n/8 N. Duan, ``Smear-ing es-ti-mate: A non-para-met-ric re-trans-f
 or-ma-tion
  []
 
-)
+[10])
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -882,7 +875,9 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[10] (main.aux)
+[11
+
+] (main.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-09-09>
@@ -891,9 +886,9 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 1D78FCAC1AA9722236D14A1440B762E4;5436.
  ) 
 Here is how much of TeX's memory you used:
- 22141 strings out of 467392
- 419069 string characters out of 5407096
- 829918 words of memory out of 5000000
+ 22142 strings out of 467392
+ 419076 string characters out of 5407096
+ 829681 words of memory out of 5000000
  51027 multiletter control sequences out of 15000+600000
  674709 words of font info for 130 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -916,9 +911,9 @@ s/AD/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/A
 D/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/AD/
 AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/AD/App
 Data/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (10 pages, 895979 bytes).
+Output written on main.pdf (11 pages, 896429 bytes).
 PDF statistics:
- 463 PDF objects out of 1000 (max. 8388607)
- 108 named destinations out of 1000 (max. 500000)
+ 469 PDF objects out of 1000 (max. 8388607)
+ 109 named destinations out of 1000 (max. 500000)
  270 words of extra memory for PDF output out of 10000 (max. 10000000)
 

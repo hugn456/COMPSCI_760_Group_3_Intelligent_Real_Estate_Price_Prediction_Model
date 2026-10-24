@@ -141,7 +141,8 @@ We test three hypotheses:
   \item \textbf{H2:} The external features contain information that the
   property features do not, so a model that sees \emph{only} external
   features can predict part of the error left by a property-only model.
-  \item \textbf{H3:} XGBoost predicts sale prices more accurately than a
+  \item \textbf{H3:} Machine learning models (XGBoost, CatBoost, random
+  forest and a neural network) predict sale prices more accurately than a
   hedonic regression that uses the same features and the same test
   sales.
 \end{itemize}
@@ -155,7 +156,9 @@ The coordinate then lets us attach 16 external features from public
 data. We train every model with time-ordered cross-validation, so it
 always learns from earlier sales and is tested on later ones. A paired
 bootstrap tests H1, a two-stage residual model tests H2, and a
-comparison on the same folds tests H3. Finally, three importance
+comparison on the same folds tests H3. This comparison also picks the
+main model for the rest of the paper and checks that the SHAP findings
+hold across different models. Finally, three importance
 methods and SHAP show \emph{which} external data matters and
 \emph{why} the model gives a certain price.
 
@@ -203,14 +206,15 @@ features~\cite{rosen1974}. These models are mainly used to
 well as possible~\cite{shmueli2010}. Auckland studies show that factors
 outside the property matter. Adding valuer-defined submarkets improved a
 hedonic model more than switching to more complex spatial
-models~\cite{bourassa2007}. Flood-prone homes on the North Shore sold for
-about 6.2\% less before flood maps were published and 2.3\% less
-afterwards~\cite{samarasinghe2010}. A popular school zone raised
-prices~\cite{rehm2008}, leaky-building stigma lowered them by about
-5\%~\cite{rehm2009}, and nearby social housing lowered them by
-1.7--23\%~\cite{sequeira2021}. Overseas work shows that ignoring the link
-between nearby sales can overstate an outside effect such as
-flooding~\cite{bui2024}. Each of these studies looks at one factor in a
+models~\cite{bourassa2007}. Flood-prone homes on the North Shore sold at
+a discount, which became smaller once flood-risk information was made
+public~\cite{samarasinghe2010}. Being zoned for popular state schools
+raised prices, though not evenly~\cite{rehm2008}, leaky-building stigma
+lowered them by about 5\%~\cite{rehm2009}, and nearby social housing
+lowered them by 1.7--23\%~\cite{sequeira2021}. Overseas, a hedonic model
+combined with spatial econometrics found that flood-affected homes in Ho
+Chi Minh City sold for 9\% less after a major flood~\cite{bui2024}. Each
+of these studies looks at one factor in a
 linear model, so none shows how much a \emph{combined} set of outside
 data improves prediction. We add 16 external features to one model at
 once and measure the change in error on unseen sales.
@@ -220,10 +224,12 @@ Tree-based models learn curved effects and interactions from the data
 without the analyst choosing their shape. They usually predict prices
 better than hedonic regression: a random forest reached a MAPE of about
 7\% against 17\% for regression on Ljubljana apartments~\cite{ceh2018},
-and an $R^2$ of 0.94 against 0.65 on Busan condominiums~\cite{an2025}. In
-Russia a random forest also won (MAPE 14.9\% vs 18.3\%), but its error
-was much higher for large apartments~\cite{antipov2012}, so one overall
-number can hide weak spots. Gradient-boosted trees such as
+and in Busan a random forest explained with SHAP appraised condominium
+prices more accurately than hedonic models~\cite{an2025}. In Russia a
+random forest also won (MAPE 14.9\% vs 18.3\%), but a closer check found
+groups of apartments whose prices it consistently over- or
+underestimated~\cite{antipov2012}, so one overall number can hide weak
+spots. Gradient-boosted trees such as
 XGBoost~\cite{chen2016xgboost} do similarly well. Soltani
 \textit{et al.}~\cite{soltani2022} stressed that features and training
 data must only use sales that happened \emph{before} the sale being
@@ -238,9 +244,9 @@ SHAP~\cite{lundberg2017} splits each prediction into one contribution
 per feature, which makes machine learning models easier to read. In
 Lisbon, open data on the surroundings cut MAE by 8.24\%, and SHAP ranked
 longitude and latitude among the top features~\cite{neves2024}. In
-Sydney, SHAP showed that the effect of amenities changed with distance
-and amenity type~\cite{lee2025}, and in Beijing, location mattered most
-and other effects varied by area~\cite{chen2025beijing}. These studies
+Sydney, SHAP showed that the effect of amenities on price changes with
+distance and differs by amenity type~\cite{lee2025}, and in Beijing, GeoShapley showed that price
+effects are non-linear and vary across the city~\cite{chen2025beijing}. These studies
 rank features with SHAP alone. When features overlap, as coordinates and
 area statistics do, one ranking can mislead. We therefore test first
 whether external data helps, and then compare three importance methods
@@ -369,9 +375,8 @@ weight, as long as the weight is above \ph{threshold, as a match weight
 or match probability}. \ph{Clerical review: how many pairs were checked
 by hand, in which match-weight bands, and the false-match rate found.}
 This links 81,363 of the 85,180 distinct properties in the sales file
-(95.5\%) to one LINZ address and coordinate. A few LINZ addresses (72)
-are shared by two valuation references, for example two cross-leased
-homes at one street number. We join the coordinates back to the sales by
+(95.5\%) to one LINZ address and coordinate; a few LINZ addresses (72)
+are shared by two valuation references. We join the coordinates back to the sales by
 valuation reference, built from the roll number, the assessment number
 and the lower-cased suffix that separates units under one assessment.
 
@@ -403,7 +408,7 @@ Table~\ref{tab:funnel} lists the filters in the order we applied them.
 The zoning and unit filters remove commercial properties and buildings
 with several homes. The tenure filter removes leasehold sales, which sell
 for less because the buyer does not own the land. The one-property
-filter matters most: when several properties are sold together, the
+filter is important: when several properties are sold together, the
 record shows one combined price but the features of only one property,
 so the model cannot learn from it. The arm's-length filter removes sales
 between related parties, which may not reflect market value. Linkage
@@ -585,12 +590,14 @@ algorithm, we train four more models on exactly the same inputs:
   learning rate 0.05, set to match XGBoost. It gets the same integer
   category codes as the other models.
   \item \textbf{Neural network}: a multilayer perceptron with a learned
-  embedding for each categorical feature and three hidden layers (256,
-  128 and 64 units, ReLU, dropout 0.1), trained with
-  Adam~\cite{kingma2015} (learning rate $10^{-3}$, batch 512) on the
-  standardised log price. Training stops when the error on the latest
-  10\% of the training period has not improved for 10 epochs. Inputs are
-  clipped to the training 0.5th--99.5th percentiles.
+  embedding (up to 16 dimensions) for each categorical feature and three
+  hidden
+  layers (256, 128 and 64 units, ReLU, dropout 0.1), trained with
+  Adam~\cite{kingma2015} (learning rate $10^{-3}$, batch 512, mean
+  squared error) on the standardised log price. Training stops when the
+  error on the latest 10\% of the training period has not improved for
+  10 epochs (at most 100). Numeric inputs are clipped to the training
+  0.5th--99.5th percentiles and standardised.
   \item \textbf{Hedonic regression}, described next.
 \end{itemize}
 We do not tune any model. If each model were tuned separately, part of
@@ -620,7 +627,8 @@ Duan's smearing factor~\cite{duan1983}:
   \label{eq:smearing}
 \end{equation}
 where $\hat{\varepsilon}_j$ are the $m$ training residuals. The neural
-network uses the same correction.
+network uses the same correction. For both models, final predictions
+are capped to the range of training prices.
 
 \subsection{Testing the hypotheses}\label{sec:tests}
 \textbf{H1: paired bootstrap.} We train XGBoost on the baseline and the
@@ -651,7 +659,9 @@ external features explain something the property features missed.
 \textbf{H3: same-fold comparison.} All five models of
 Section~\ref{sec:models} use the same features, folds, price limits and
 metrics, so any difference comes from the model alone. We compare their
-pooled errors and their errors in each fold.
+pooled errors and their errors in each fold. H3 is supported if every
+machine learning model has a lower error than the hedonic regression,
+both pooled and in each of the five folds.
 
 \subsection{Which external features matter}\label{sec:attribution}
 To see which external data drives the gain, we use fold~5: the model
@@ -680,9 +690,11 @@ SHAP values add up: for each sale, the model's average prediction plus
 the SHAP value of every feature equals the prediction. We use this to
 explain one held-out sale at a time. Starting from the average predicted
 price, each feature adds or removes a dollar amount. For a short
-summary, we add up the contributions within five themes (the four
-external groups plus ``house and land''), which is valid because SHAP
-values are additive. A waterfall chart shows the largest single
+summary, we add up the contributions within five themes: location,
+neighbourhood and hazards (as in Table~\ref{tab:features}), house and
+land (the size and building features), and market timing (sale year,
+sale month and new dwellings consented). Adding them up is valid because
+SHAP values are additive. A waterfall chart shows the largest single
 contributions with feature values in real units (square metres,
 kilometres, deciles). For the tree models we use exact
 TreeSHAP~\cite{lundberg2017}; for the neural network and hedonic model
@@ -705,9 +717,9 @@ our XGBoost model on these homes:
 \begin{itemize}
   \item \textbf{Ours (to 24 Jan):} the fold-5 prediction used in the rest
   of the paper, from a model trained on sales up to 24 January 2026.
-  \item \textbf{Ours (to 9 Jul):} the same model retrained on all 58,223
-  sales before 9 July 2026, so that it knows the market up to the same
-  day as the online estimates.
+  \item \textbf{Ours (to 9 Jul):} the same model retrained on the sales
+  before 9 July 2026 (58,223 after the same price limits), so that it
+  knows the market up to the same day as the online estimates.
 \end{itemize}
 Besides MAE, RMSE and MAPE, we report the share of homes predicted within
 5\% and 10\% of the sale price, a common way to judge automated
@@ -734,8 +746,8 @@ Both models also improve in later folds, which have more training
 history.
 
 What does this mean in practice? A typical error of \$128,000 is still a
-lot of money, but it is about half of the \$223,000 typical error of a
-model that only knows the house. Two homes with the same size, age and
+lot of money, but it is 43\% smaller than the \$223,000 typical error of
+a model that only knows the house. Two homes with the same size, age and
 condition can differ in price by hundreds of thousands of dollars
 depending on where they are, and the baseline model has no way to see
 this.
@@ -847,8 +859,10 @@ sales and the same 27 features. XGBoost is the most accurate on every
 metric (MAPE 11.0\%), followed closely by CatBoost and random forest
 (11.6\%), then the neural network (12.3\%). The hedonic regression is
 clearly the least accurate (15.7\%): its RMSE is 44\% higher than
-XGBoost's, and it is worse in every one of the five folds (RMSE
-\$288,480--\$323,713 vs \$191,483--\$238,373). \textbf{H3 is supported.}
+XGBoost's. Every one of the four machine learning models beats it, both
+pooled and in each of the five folds; even the weakest, the neural
+network, has a lower RMSE than the hedonic model in every fold
+(\$224,206--\$275,297 vs \$288,480--\$323,713). \textbf{H3 is supported.}
 All four machine learning models train all five folds in under a minute
 on a CPU, so the accuracy gain costs little.
 
@@ -883,7 +897,8 @@ The models also agree on what matters. Table~\ref{tab:shapmodels} shows
 the SHAP share of the leading features in each model, on the same 500
 fold-5 test sales. Building floor area is first and distance to the CBD
 second in all five models. The main difference is that the hedonic model
-leans more on SA2 income and building age: a linear model cannot learn
+leans more on SA2 income and employment and on building age (8.5--8.9\%
+each): a linear model cannot learn
 sharp local patterns from latitude and longitude, so it relies on
 smoother area summaries instead. That five very different models agree
 on the top features makes these conclusions more trustworthy than any
@@ -935,13 +950,14 @@ below). Starting from the average prediction of \$1,151,033:
   \item \emph{location} adds \$41,119: the home's latitude (+\$85,033)
   outweighs its 16.9~km distance from the CBD ($-$\$63,763);
   \item the \emph{house and land} add \$26,184: a large floor area
-  (172~m\textsuperscript{2}, +\$84,080) more than offsets a small section
+  (172~m\textsuperscript{2}, +\$84,080) and a new building (built in the
+  2020s, about +\$34,000) more than offset a small section
   (186~m\textsuperscript{2}, $-$\$94,139);
   \item \emph{market timing} (a 2026 sale) removes \$19,070, and
   \emph{hazards} change the price by only \$1,469.
 \end{itemize}
 This is the kind of reason an online valuation tool does not give: a
-buyer can see that the price rests on the area and the size of the
+buyer can see that the price rests on the area and on a large, new
 house, not on the section.
 
 \begin{figure}[t]
@@ -1020,7 +1036,7 @@ This answers the second half of RQ2. Our model is far more accurate than
 the traditional hedonic approach and explains every prediction in
 dollars, but it does not reach the accuracy of a commercial estimate
 built on richer data, and homes.co.nz gives no reason for its number.
-The 3.6-point MAPE gap is the current cost of building only on
+The 3.5-point MAPE gap is the current cost of building only on
 open data, and it shows what to add next: better data about the house
 itself.
 
@@ -1032,14 +1048,18 @@ may not hold for the cheapest or most expensive 1\%. Record linkage
 placed 97.6\% of the arm's-length single-home sales; if the missing
 2.4\% are different (for example new subdivisions not yet in LINZ), our
 results could be slightly off for that part of the market. The data also
-covers one city over 2024--2026, a fairly flat market, so the size of
-the gain may differ elsewhere or in a fast-rising market.
+covers one city over 2024--2026, a flat market: the median sale price
+stayed between \$950,000 and \$1,020,000 in every quarter. Tree models
+cannot extend a price trend into months they have not seen, so in a
+fast-rising market their predictions would lag, and the size of the
+gain may differ in other cities or periods.
 
 \textbf{Area data.} The neighbourhood features are 2023 Census and
 NZDep2023 values for the whole SA2. Every home in an SA2 shares them,
 they do not change over 2024--2026, and they describe the area, not the
-buyer. We had school locations but not enrolment zones, so we could not
-test school-zone effects.
+buyer. One SA2 (51 sales) has a recorded median income of \$0, probably
+a census coding issue that we did not correct. We had school locations
+but not enrolment zones, so we could not test school-zone effects.
 
 \textbf{Explanations are not causes.} SHAP and the other methods show
 how the model uses a feature, not what causes prices to change: a large
@@ -1064,27 +1084,27 @@ This paper asked whether Auckland-specific external data improves house
 price prediction (RQ1), and how an explainable model built on it compares
 with a traditional hedonic model and free online valuations (RQ2). We
 built a pipeline from the Auckland Council sales file to a linked
-dataset: Splink record linkage gave each property a LINZ coordinate, and
-the coordinate let us attach 16 external features from nine public
-sources. We then tested the models with time-ordered cross-validation,
+dataset: Splink record linkage gave 95.5\% of properties a LINZ
+coordinate, and the coordinate let us attach 16 external features from
+nine public sources. We then tested the models with time-ordered cross-validation,
 so every prediction was made from past sales only.
 
 For RQ1, the answer is yes, by a wide and significant margin. Adding the
 external features cuts XGBoost's RMSE by 38.1\% and MAPE from 19.3\% to
 11.0\% (H1), and a model that sees only external data explains 29.3\% of
-the error a property-only model leaves (H2). The reason is simple: two
+the variance in the errors a property-only model leaves (H2). The reason is simple: two
 similar houses in different places can sell for very different prices,
 and only the external features tell the model where a house is and what
-its area is like. For the first part of RQ2, XGBoost is the most
-accurate of five models and far more accurate than a hedonic regression
-on the same features (MAPE 11.0\% vs 15.7\%, H3), because it can learn
-curved and local effects. It still explains each prediction in dollars
+its area is like. For the first part of RQ2, all four machine learning
+models beat a hedonic regression on the same features (H3), most likely
+because they can learn curved and local effects; XGBoost is the most
+accurate (MAPE 11.0\% vs 15.7\%). It still explains each prediction in dollars
 through SHAP. For the second part of RQ2, a free online estimate
 (homes.co.nz) recorded before each sale was more accurate on 46 recent
 sales (MAPE 6.0\% vs 9.6\%), even after we retrained our model up to the
-same date. Public council and area data take us most of the way, but
-not all the way, to a commercial estimate; the rest seems to need
-richer data about the house itself.
+same date. Public council and area data bring our model within 3.5 MAPE
+points of a commercial estimate; closing the rest seems to need richer
+data about the house itself.
 
 The clearest practical finding is that most of the value of external
 data is the value of \emph{location}. Distance to the CBD and the
@@ -1095,14 +1115,14 @@ city-wide model. For a team building a similar model with limited time,
 an accurate coordinate (here, good record linkage) and a few location
 measures are worth more than many extra area features.
 
-The main drawbacks are that the model is less accurate for unusual
-homes, that area data is coarse and fixed in time, and that SHAP shows
-association, not cause. If this work continued as a master's project, we
+The main drawbacks are that the model is less accurate than a
+commercial online estimate and misses most on unusual homes, that area
+data is coarse and fixed in time, and that SHAP shows association, not
+cause. If this work continued as a master's project, we
 would: (1) repeat the online benchmark on a larger sample and several
 tools, recording estimates for homes as they are listed, and test
 whether listing data (photos, descriptions) closes the gap; (2) tune
-each model
-and add a prediction interval (for example with quantile regression or
+each model and add a prediction interval (for example with quantile regression or
 conformal prediction), so a buyer sees a range, not just one number;
 (3) test whether hazards matter more in the parts of Auckland where they
 are common, using location--feature interaction methods such as
