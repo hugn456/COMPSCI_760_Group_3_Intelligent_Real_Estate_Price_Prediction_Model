@@ -29,8 +29,13 @@
 \citation{lee2025}
 \citation{chen2025beijing}
 \citation{akl_dvr}
-\citation{akl_gis}
+\citation{statsnz_sa2}
+\citation{statsnz_census}
+\citation{nzdep2023}
 \citation{statsnz}
+\citation{akl_gis}
+\citation{moe_schools}
+\citation{linz_coast}
 \citation{osm}
 \citation{at_gtfs}
 \@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{2}{section.2}\protected@file@percent }
@@ -42,67 +47,74 @@
 \@writefile{toc}{\contentsline {section}{\numberline {III}Data}{2}{section.3}\protected@file@percent }
 \newlabel{sec:data}{{III}{2}{Data}{section.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Data sources}{2}{subsection.3.1}\protected@file@percent }
-\citation{chen2016xgboost}
-\citation{ceh2018,an2025}
-\citation{soltani2022}
-\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Filters applied to the sales data, in order}}{3}{table.1}\protected@file@percent }
-\newlabel{tab:funnel}{{I}{3}{Filters applied to the sales data, in order}{table.1}{}}
+\citation{linz_addresses}
+\citation{linacre2022,splink_docs}
+\citation{fellegi1969}
+\citation{linacre2022}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Linking sales to coordinates}{3}{subsection.3.2}\protected@file@percent }
 \newlabel{sec:linkage}{{\mbox  {III-B}}{3}{Linking sales to coordinates}{subsection.3.2}{}}
 \newlabel{eq:linkage}{{1}{3}{Linking sales to coordinates}{equation.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Filters applied to the sales data, in order}}{3}{table.1}\protected@file@percent }
+\newlabel{tab:funnel}{{I}{3}{Filters applied to the sales data, in order}{table.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Cleaning}{3}{subsection.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Features}{3}{subsection.3.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Feature sets}}{3}{table.2}\protected@file@percent }
-\newlabel{tab:features}{{II}{3}{Feature sets}{table.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {IV}Methodology}{3}{section.4}\protected@file@percent }
-\newlabel{sec:method}{{IV}{3}{Methodology}{section.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Model}{3}{subsection.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Training and testing}{3}{subsection.4.2}\protected@file@percent }
-\newlabel{sec:split}{{\mbox  {IV-B}}{3}{Training and testing}{subsection.4.2}{}}
+\citation{chen2016xgboost}
+\citation{ceh2018,an2025}
+\citation{soltani2022}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Feature sets}}{4}{table.2}\protected@file@percent }
+\newlabel{tab:features}{{II}{4}{Feature sets}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Features}{4}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Methodology}{4}{section.4}\protected@file@percent }
+\newlabel{sec:method}{{IV}{4}{Methodology}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Models}{4}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Training and testing}{4}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:split}{{\mbox  {IV-B}}{4}{Training and testing}{subsection.4.2}{}}
 \citation{lundberg2017}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Five-fold expanding-window cross-validation. Each fold trains on all earlier sales and tests on the next period.}}{4}{figure.1}\protected@file@percent }
-\newlabel{fig:folds}{{1}{4}{Five-fold expanding-window cross-validation. Each fold trains on all earlier sales and tests on the next period}{figure.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Evaluation metrics}{4}{subsection.4.3}\protected@file@percent }
-\newlabel{eq:mae}{{2}{4}{Evaluation metrics}{equation.2}{}}
-\newlabel{eq:rmse}{{3}{4}{Evaluation metrics}{equation.3}{}}
-\newlabel{eq:mape}{{4}{4}{Evaluation metrics}{equation.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Testing whether the improvement is real (H1)}{4}{subsection.4.4}\protected@file@percent }
-\newlabel{eq:bootstrap}{{5}{4}{Testing whether the improvement is real (H1)}{equation.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Two-stage residual test (H2)}{4}{subsection.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-F}}Which external features matter}{4}{subsection.4.6}\protected@file@percent }
-\newlabel{sec:attribution}{{\mbox  {IV-F}}{4}{Which external features matter}{subsection.4.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-G}}Hedonic baseline}{4}{subsection.4.7}\protected@file@percent }
-\newlabel{sec:hedonic}{{\mbox  {IV-G}}{4}{Hedonic baseline}{subsection.4.7}{}}
-\newlabel{eq:hedonic}{{6}{4}{Hedonic baseline}{equation.6}{}}
 \citation{duan1983}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Five-fold expanding-window cross-validation. Each fold trains on all earlier sales and tests on the next period.}}{5}{figure.1}\protected@file@percent }
+\newlabel{fig:folds}{{1}{5}{Five-fold expanding-window cross-validation. Each fold trains on all earlier sales and tests on the next period}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Evaluation metrics}{5}{subsection.4.3}\protected@file@percent }
+\newlabel{eq:mae}{{2}{5}{Evaluation metrics}{equation.2}{}}
+\newlabel{eq:rmse}{{3}{5}{Evaluation metrics}{equation.3}{}}
+\newlabel{eq:mape}{{4}{5}{Evaluation metrics}{equation.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Testing whether the improvement is real}{5}{subsection.4.4}\protected@file@percent }
+\newlabel{eq:bootstrap}{{5}{5}{Testing whether the improvement is real}{equation.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Two-stage residual test}{5}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-F}}Which external features matter}{5}{subsection.4.6}\protected@file@percent }
+\newlabel{sec:attribution}{{\mbox  {IV-F}}{5}{Which external features matter}{subsection.4.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-G}}Hedonic baseline}{5}{subsection.4.7}\protected@file@percent }
+\newlabel{sec:hedonic}{{\mbox  {IV-G}}{5}{Hedonic baseline}{subsection.4.7}{}}
+\newlabel{eq:hedonic}{{6}{5}{Hedonic baseline}{equation.6}{}}
 \newlabel{eq:smearing}{{7}{5}{Hedonic baseline}{equation.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-H}}Online valuation benchmark}{5}{subsection.4.8}\protected@file@percent }
-\newlabel{sec:onlineval}{{\mbox  {IV-H}}{5}{Online valuation benchmark}{subsection.4.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-I}}Hyperparameter check}{5}{subsection.4.9}\protected@file@percent }
-\newlabel{sec:tuning}{{\mbox  {IV-I}}{5}{Hyperparameter check}{subsection.4.9}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {V}Experiments and Results}{5}{section.5}\protected@file@percent }
-\newlabel{sec:results}{{V}{5}{Experiments and Results}{section.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Does external data help? (H1)}{5}{subsection.5.1}\protected@file@percent }
-\newlabel{sec:res-ablation}{{\mbox  {V-A}}{5}{Does external data help? (H1)}{subsection.5.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Baseline (property only) vs.\ augmented (with external features), pooled out-of-fold over 5 folds, $n=48{,}848$}}{5}{table.3}\protected@file@percent }
-\newlabel{tab:ablation}{{III}{5}{Baseline (property only) vs.\ augmented (with external features), pooled out-of-fold over 5 folds, $n=48{,}848$}{table.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Do external features add new information? (H2)}{5}{subsection.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Which external features matter?}{5}{subsection.5.3}\protected@file@percent }
-\newlabel{sec:res-attribution}{{\mbox  {V-C}}{5}{Which external features matter?}{subsection.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-H}}Explaining individual predictions}{6}{subsection.4.8}\protected@file@percent }
+\newlabel{sec:explain}{{\mbox  {IV-H}}{6}{Explaining individual predictions}{subsection.4.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-I}}Online valuation benchmark}{6}{subsection.4.9}\protected@file@percent }
+\newlabel{sec:onlineval}{{\mbox  {IV-I}}{6}{Online valuation benchmark}{subsection.4.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Experiments and Results}{6}{section.5}\protected@file@percent }
+\newlabel{sec:results}{{V}{6}{Experiments and Results}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Does external data help?}{6}{subsection.5.1}\protected@file@percent }
+\newlabel{sec:res-ablation}{{\mbox  {V-A}}{6}{Does external data help?}{subsection.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Do external features add new information?}{6}{subsection.5.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Baseline (property only) vs.\ augmented (with external features), XGBoost, pooled out-of-fold over 5 folds, $n=48{,}777$}}{6}{table.3}\protected@file@percent }
+\newlabel{tab:ablation}{{III}{6}{Baseline (property only) vs.\ augmented (with external features), XGBoost, pooled out-of-fold over 5 folds, $n=48{,}777$}{table.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Pooled out-of-fold error of the baseline and augmented XGBoost models.}}{6}{figure.2}\protected@file@percent }
+\newlabel{fig:ablation}{{2}{6}{Pooled out-of-fold error of the baseline and augmented XGBoost models}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Which external features matter?}{6}{subsection.5.3}\protected@file@percent }
+\newlabel{sec:res-attribution}{{\mbox  {V-C}}{6}{Which external features matter?}{subsection.5.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Attribution of the external feature groups on fold~5. Permutation: RMSE increase when the group is shuffled. SHAP: share of total mean $|$SHAP$|$. Drop-group: RMSE change when the model is retrained without the group (negative = marginally better without it).}}{7}{table.4}\protected@file@percent }
+\newlabel{tab:attribution}{{IV}{7}{Attribution of the external feature groups on fold~5. Permutation: RMSE increase when the group is shuffled. SHAP: share of total mean $|$SHAP$|$. Drop-group: RMSE change when the model is retrained without the group (negative = marginally better without it)}{table.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces SHAP summary for the augmented XGBoost model on 500 fold-5 test sales (15 most important features). Each dot is one sale; colour is the feature's value.}}{7}{figure.3}\protected@file@percent }
+\newlabel{fig:shap}{{3}{7}{SHAP summary for the augmented XGBoost model on 500 fold-5 test sales (15 most important features). Each dot is one sale; colour is the feature's value}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Comparison of model families}{7}{subsection.5.4}\protected@file@percent }
+\newlabel{sec:res-models}{{\mbox  {V-D}}{7}{Comparison of model families}{subsection.5.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}Comparison with a hedonic model (RQ2)}{7}{subsection.5.5}\protected@file@percent }
+\newlabel{sec:res-hedonic}{{\mbox  {V-E}}{7}{Comparison with a hedonic model (RQ2)}{subsection.5.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces All models on the same features and folds, pooled out-of-fold, $n=48{,}777$. Time is for training all five folds.}}{7}{table.5}\protected@file@percent }
+\newlabel{tab:models}{{V}{7}{All models on the same features and folds, pooled out-of-fold, $n=48{,}777$. Time is for training all five folds}{table.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Share of total mean $|$SHAP$|$ (\%) for leading features, same 500 fold-5 test sales. RF = random forest, NN = neural network.}}{7}{table.6}\protected@file@percent }
+\newlabel{tab:shapmodels}{{VI}{7}{Share of total mean $|$SHAP$|$ (\%) for leading features, same 500 fold-5 test sales. RF = random forest, NN = neural network}{table.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-F}}Explaining a single prediction}{7}{subsection.5.6}\protected@file@percent }
+\newlabel{sec:res-explain}{{\mbox  {V-F}}{7}{Explaining a single prediction}{subsection.5.6}{}}
 \citation{li2024geoshapley}
-\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Attribution of the top external features (single 80/20 split). Drop-one is the RMSE change from removing the feature and retraining; negative values mean the model did marginally better without it.}}{6}{table.4}\protected@file@percent }
-\newlabel{tab:attribution}{{IV}{6}{Attribution of the top external features (single 80/20 split). Drop-one is the RMSE change from removing the feature and retraining; negative values mean the model did marginally better without it}{table.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Comparison with a hedonic model (RQ2)}{6}{subsection.5.4}\protected@file@percent }
-\newlabel{sec:res-hedonic}{{\mbox  {V-D}}{6}{Comparison with a hedonic model (RQ2)}{subsection.5.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Hedonic regression vs.\ both ML models, pooled out-of-fold}}{6}{table.5}\protected@file@percent }
-\newlabel{tab:threeway}{{V}{6}{Hedonic regression vs.\ both ML models, pooled out-of-fold}{table.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Fixed vs.\ tuned hyperparameters, single 80/20 split}}{6}{table.6}\protected@file@percent }
-\newlabel{tab:tuning}{{VI}{6}{Fixed vs.\ tuned hyperparameters, single 80/20 split}{table.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}Comparison with online valuation estimates (RQ2)}{6}{subsection.5.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-F}}Does tuning help?}{6}{subsection.5.6}\protected@file@percent }
-\newlabel{sec:res-tuning}{{\mbox  {V-F}}{6}{Does tuning help?}{subsection.5.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {VI}Limitations}{6}{section.6}\protected@file@percent }
-\newlabel{sec:limits}{{VI}{6}{Limitations}{section.6}{}}
 \bibstyle{IEEEtran}
 \bibdata{references.bib}
 \bibcite{samarasinghe2010}{1}
@@ -112,6 +124,14 @@
 \bibcite{shmueli2010}{5}
 \bibcite{ceh2018}{6}
 \bibcite{an2025}{7}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces SHAP explanation of one held-out sale (XGBoost, fold~5). Bars run from the average prediction to the model's prediction; red raises the price and blue lowers it. Lines mark the average, predicted and actual price.}}{8}{figure.4}\protected@file@percent }
+\newlabel{fig:house}{{4}{8}{SHAP explanation of one held-out sale (XGBoost, fold~5). Bars run from the average prediction to the model's prediction; red raises the price and blue lowers it. Lines mark the average, predicted and actual price}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-G}}Comparison with online valuation estimates (RQ2)}{8}{subsection.5.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Limitations}{8}{section.6}\protected@file@percent }
+\newlabel{sec:limits}{{VI}{8}{Limitations}{section.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Conclusion and Future Work}{8}{section.7}\protected@file@percent }
+\newlabel{sec:conclusion}{{VII}{8}{Conclusion and Future Work}{section.7}{}}
+\@writefile{toc}{\contentsline {section}{References}{8}{section*.2}\protected@file@percent }
 \bibcite{lundberg2017}{8}
 \bibcite{rosen1974}{9}
 \bibcite{bourassa2007}{10}
@@ -123,13 +143,19 @@
 \bibcite{lee2025}{16}
 \bibcite{chen2025beijing}{17}
 \bibcite{akl_dvr}{18}
-\bibcite{akl_gis}{19}
-\bibcite{statsnz}{20}
-\@writefile{toc}{\contentsline {section}{\numberline {VII}Conclusion and Future Work}{7}{section.7}\protected@file@percent }
-\newlabel{sec:conclusion}{{VII}{7}{Conclusion and Future Work}{section.7}{}}
-\@writefile{toc}{\contentsline {section}{References}{7}{section*.2}\protected@file@percent }
-\bibcite{osm}{21}
-\bibcite{at_gtfs}{22}
-\bibcite{duan1983}{23}
-\bibcite{li2024geoshapley}{24}
-\gdef \@abspage@last{8}
+\bibcite{statsnz_sa2}{19}
+\bibcite{statsnz_census}{20}
+\bibcite{nzdep2023}{21}
+\bibcite{statsnz}{22}
+\bibcite{akl_gis}{23}
+\bibcite{moe_schools}{24}
+\bibcite{linz_coast}{25}
+\bibcite{osm}{26}
+\bibcite{at_gtfs}{27}
+\bibcite{linz_addresses}{28}
+\bibcite{linacre2022}{29}
+\bibcite{splink_docs}{30}
+\bibcite{fellegi1969}{31}
+\bibcite{duan1983}{32}
+\bibcite{li2024geoshapley}{33}
+\gdef \@abspage@last{9}

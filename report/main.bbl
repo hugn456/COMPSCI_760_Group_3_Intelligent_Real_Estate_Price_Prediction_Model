@@ -112,17 +112,50 @@ Y.~Chen, Y.~Ye, X.~Liu, C.~Yin, and C.~A. Jones, ``Examining the nonlinear and
   and {DVRS} files),'' Auckland Council, Auckland, New Zealand, 2026, {Extract}
   dated Aug. 2026.
 
-\bibitem{akl_gis}
+\bibitem{statsnz_sa2}
 \BIBentryALTinterwordspacing
-------, ``Flood plains, flood sensitive areas, and {Unitary Plan} base zone,''
-  Auckland Council Open Data, 2026, {Accessed}: Oct. 21, 2026. [Online].
-  Available: \url{https://data-aucklandcouncil.opendata.arcgis.com}
+{Stats NZ}, ``Statistical area 2 2025 (generalised),'' Stats NZ Geographic Data
+  Service, 2025, {Accessed}: Oct. 24, 2026. [Online]. Available:
+  \url{https://datafinder.stats.govt.nz}
 \BIBentrySTDinterwordspacing
+
+\bibitem{statsnz_census}
+\BIBentryALTinterwordspacing
+------, ``2023 {Census} totals by topic for individuals by {Statistical Area
+  2},'' Stats NZ, 2024, {Accessed}: Oct. 24, 2026. [Online]. Available:
+  \url{https://datafinder.stats.govt.nz}
+\BIBentrySTDinterwordspacing
+
+\bibitem{nzdep2023}
+J.~Atkinson, C.~Salmond, and P.~Crampton, ``{NZDep2023} index of deprivation,''
+  Department of Public Health, University of Otago, Wellington, New Zealand,
+  Tech. Rep., 2024.
 
 \bibitem{statsnz}
 \BIBentryALTinterwordspacing
 {Stats NZ}, ``Building consents issued,'' Stats NZ, 2026, {Accessed}: Oct. 21,
   2026. [Online]. Available: \url{https://www.stats.govt.nz}
+\BIBentrySTDinterwordspacing
+
+\bibitem{akl_gis}
+\BIBentryALTinterwordspacing
+{Auckland Council}, ``Flood plains, flood sensitive areas, and {Unitary Plan}
+  base zone,'' Auckland Council Open Data, 2026, {Accessed}: Oct. 21, 2026.
+  [Online]. Available: \url{https://data-aucklandcouncil.opendata.arcgis.com}
+\BIBentrySTDinterwordspacing
+
+\bibitem{moe_schools}
+\BIBentryALTinterwordspacing
+{Ministry of Education}, ``New {Zealand} schools directory,'' Education Counts,
+  2026, {Accessed}: Oct. 24, 2026. [Online]. Available:
+  \url{https://www.educationcounts.govt.nz}
+\BIBentrySTDinterwordspacing
+
+\bibitem{linz_coast}
+\BIBentryALTinterwordspacing
+{Land Information New Zealand}, ``{NZ} coastline,'' LINZ Data Service, 2026,
+  {Accessed}: Oct. 24, 2026. [Online]. Available:
+  \url{https://data.linz.govt.nz}
 \BIBentrySTDinterwordspacing
 
 \bibitem{osm}
@@ -138,6 +171,32 @@ Y.~Chen, Y.~Ye, X.~Liu, C.~Yin, and C.~A. Jones, ``Examining the nonlinear and
   2026, {Accessed}: Oct. 21, 2026. [Online]. Available:
   \url{https://at.govt.nz}
 \BIBentrySTDinterwordspacing
+
+\bibitem{linz_addresses}
+\BIBentryALTinterwordspacing
+{Land Information New Zealand}, ``{NZ} addresses,'' LINZ Data Service, 2026,
+  {Accessed}: Oct. 21, 2026. [Online]. Available:
+  \url{https://data.linz.govt.nz}
+\BIBentrySTDinterwordspacing
+
+\bibitem{linacre2022}
+\BIBentryALTinterwordspacing
+R.~Linacre, S.~Lindsay, T.~Manassis, Z.~Slade, and T.~Hepworth, ``Splink: Free
+  software for probabilistic record linkage at scale,'' \emph{Int. J. Popul.
+  Data Sci.}, vol.~7, no.~3, 2022. [Online]. Available:
+  \url{https://doi.org/10.23889/ijpds.v7i3.1794}
+\BIBentrySTDinterwordspacing
+
+\bibitem{splink_docs}
+\BIBentryALTinterwordspacing
+{Ministry of Justice Analytical Services}, ``Splink: Probabilistic record
+  linkage documentation,'' {Accessed}: Oct. 21, 2026. [Online]. Available:
+  \url{https://moj-analytical-services.github.io/splink/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{fellegi1969}
+I.~P. Fellegi and A.~B. Sunter, ``A theory for record linkage,'' \emph{J. Amer.
+  Stat. Assoc.}, vol.~64, no. 328, pp. 1183--1210, 1969.
 
 \bibitem{duan1983}
 N.~Duan, ``Smearing estimate: A nonparametric retransformation method,''

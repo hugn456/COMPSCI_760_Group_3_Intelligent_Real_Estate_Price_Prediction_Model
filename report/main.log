@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.10.23)  23 OCT 2026 15:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.10.23)  24 OCT 2026 19:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -345,24 +345,24 @@ File: l3backend-pdftex.def 2026-09-09 L3 backend support: PDF output (pdfTeX)
 ) (main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
 
 -- Lines per column: 56 (exact).
 (C:\Users\AD\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
@@ -384,63 +384,84 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (C:\Users\AD\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring OFF on input line 44.
+Package hyperref Info: Link coloring OFF on input line 49.
  (main.out) (main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 74.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 77.
  (C:\Users\AD\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 127.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 132.
  (C:\Users\AD\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 127.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 132.
  (C:\Users\AD\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1{C:/Users/AD/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
 ] [2]
-Underfull \hbox (badness 2913) in paragraph at lines 314--315
-[][]\OT1/ptm/m/n/10 [Splink record link-age: pur-pose, LINZ ad-dress data,
+Underfull \hbox (badness 3977) in paragraph at lines 314--325
+[]\OT1/ptm/m/n/10 We there-fore used prob-a-bilis-tic record link-age with
  []
 
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 411.
-(C:\Users\AD\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
+[3]
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 477.
+ (C:\Users\AD\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) [3] [4]
-Underfull \hbox (badness 1742) in paragraph at lines 601--612
+)
+Underfull \hbox (badness 10000) in paragraph at lines 477--477
+[][][][][]\OT1/ptm/m/n/8 [https://github.com/ORG/REPO][]. The dataset is built in
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 477--477
+\OT1/pcr/m/n/8 remake_dataset.ipynb\OT1/ptm/m/n/8 ; the RQ1 ex-per-i-ments are in
+ []
+
+
+Underfull \hbox (badness 1655) in paragraph at lines 477--477
+\OT1/pcr/m/n/8 remake_ablation.ipynb\OT1/ptm/m/n/8 ; the model com-par-i-son, SHAP and per-
+ []
+
+[4]
+<../figures/timeseries_split.png, id=259, 787.38165pt x 231.62535pt>
+File: ../figures/timeseries_split.png Graphic file (type png)
+<use ../figures/timeseries_split.png>
+Package pdftex.def Info: ../figures/timeseries_split.png  used on input line 541.
+(pdftex.def)             Requested size: 252.0pt x 74.12868pt.
+ [5 <../figures/timeseries_split.png>]
+Underfull \hbox (badness 1742) in paragraph at lines 692--706
 []\OT1/ptm/m/n/10 Table []III[] gives the pooled out-of-fold er-ror over all
  []
 
+<../figures/baseline_vs_augmented_metrics.png, id=282, 513.117pt x 164.7756pt>
+File: ../figures/baseline_vs_augmented_metrics.png Graphic file (type png)
+<use ../figures/baseline_vs_augmented_metrics.png>
+Package pdftex.def Info: ../figures/baseline_vs_augmented_metrics.png  used on input line 725.
+(pdftex.def)             Requested size: 252.0pt x 80.92427pt.
+[6 <../figures/baseline_vs_augmented_metrics.png>]
+<../figures/shap_xgboost_fold5.png, id=297, 500.8311pt x 368.0952pt>
+File: ../figures/shap_xgboost_fold5.png Graphic file (type png)
+<use ../figures/shap_xgboost_fold5.png>
+Package pdftex.def Info: ../figures/shap_xgboost_fold5.png  used on input line 800.
+(pdftex.def)             Requested size: 252.0pt x 185.2098pt.
+ [7 <../figures/shap_xgboost_fold5.png>]
+<../figures/house_explanation.png, id=313, 781.2387pt x 456.0237pt>
+File: ../figures/house_explanation.png Graphic file (type png)
+<use ../figures/house_explanation.png>
+Package pdftex.def Info: ../figures/house_explanation.png  used on input line 905.
+(pdftex.def)             Requested size: 252.0pt x 147.0926pt.
 
-Overfull \hbox (1.6806pt too wide) in paragraph at lines 629--630
-[][] 
+Underfull \hbox (badness 7344) in paragraph at lines 933--947
+[]\OT1/ptm/m/n/10 The neigh-bour-hood fea-tures are 2023 Cen-sus and
  []
 
-
-Overfull \hbox (1.6806pt too wide) in paragraph at lines 682--683
-[][] 
- []
-
-
-Underfull \vbox (badness 7291) has occurred while \output is active []
-
- [5]
-Overfull \hbox (1.6806pt too wide) in paragraph at lines 733--734
-[][] 
- []
-
-[6]
-Underfull \hbox (badness 1521) in paragraph at lines 785--801
-[]\OT1/ptm/m/n/10 Our at-tri-bu-tion meth-ods mea-sure as-so-ci-a-tion with the
- []
-
-(main.bbl [7]
-Underfull \hbox (badness 2608) in paragraph at lines 143--145
+(main.bbl [8 <../figures/house_explanation.png>]
+Underfull \hbox (badness 2608) in paragraph at lines 202--204
 []\OT1/ptm/m/n/8 N. Duan, ``Smear-ing es-ti-mate: A non-para-met-ric re-trans-for-ma-tion
  []
 
@@ -456,28 +477,26 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[8
-
-] (main.aux)
+[9] (main.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-09-09>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 43167422EEFD7E48EB33980B93BE465B;5458.
+(rerunfilecheck)             Checksum: 3A70BEDB9858627F9C8CF91C40EA24AB;5670.
  ) 
 Here is how much of TeX's memory you used:
- 11495 strings out of 467392
- 180431 string characters out of 5407096
- 623628 words of memory out of 5000000
- 40605 multiletter control sequences out of 15000+600000
- 676225 words of font info for 136 fonts, out of 8000000 for 9000
+ 11538 strings out of 467392
+ 181618 string characters out of 5407096
+ 623714 words of memory out of 5000000
+ 40637 multiletter control sequences out of 15000+600000
+ 674117 words of font info for 131 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 74i,10n,79p,446b,592s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 74i,10n,79p,484b,588s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/AD/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (8 pages, 285291 bytes).
+Output written on main.pdf (9 pages, 842695 bytes).
 PDF statistics:
- 394 PDF objects out of 1000 (max. 8388607)
- 84 named destinations out of 1000 (max. 500000)
- 249 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 444 PDF objects out of 1000 (max. 8388607)
+ 98 named destinations out of 1000 (max. 500000)
+ 277 words of extra memory for PDF output out of 10000 (max. 10000000)
 
