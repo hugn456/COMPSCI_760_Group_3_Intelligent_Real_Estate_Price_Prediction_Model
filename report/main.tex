@@ -149,7 +149,13 @@ We test three hypotheses:
   sales.
 \end{itemize}
 
-To test them, we built a data pipeline (Fig.~\ref{fig:pipeline}). We
+Before choosing our main dataset, we tested collecting property data
+from several public websites. However, we found that the records were
+often incomplete or inconsistent, making them less suitable for our
+experiments.
+
+To test these hypotheses, we built a data pipeline
+(Fig.~\ref{fig:pipeline}). We
 start from the Auckland Council sales file, which has street addresses
 but no map coordinates. We link the properties to the official LINZ
 address list with uk\_address\_matcher~\cite{uam_docs}, a probabilistic
@@ -263,7 +269,57 @@ that react differently to overlap.
 
 %% ===================== III. METHODOLOGY ============================
 \section{Methodology}\label{sec:method}
-All code is available online.\footnote{\url{https://github.com/hugn456/COMPSCI_760_Group_3_Intelligent_Real_Estate_Price_Prediction_Model}}
+
+\subsection{Data source selection}\label{sec:datasource}
+At the start of the project, we explored several sources of property
+data, including Barfoot \& Thompson, OneRoof, realestate.co.nz and
+homes.co.nz. We wrote Python web-scraping scripts to collect property
+information from these websites and tested whether records from
+different sources could be combined into a single dataset. We also
+compared the types of information available, particularly property
+characteristics, sale prices and historical sales records.
+
+Although web scraping allowed us to collect property information, we
+found several problems with the data. Some websites did not provide all
+the property features we needed, and information about the same property
+was sometimes inconsistent across sources. We also encountered
+duplicated information and limited historical sales records, as many
+websites mainly showed recent listings. In addition, much of the
+information appeared to come from Auckland Council records. This meant
+that combining data from these websites would require considerable
+cleaning without necessarily producing a more complete or reliable
+dataset.
+
+We therefore decided to use Auckland Council's property and sales
+records as our main data source (Fig.~\ref{fig:datasource}). Before
+proceeding, we reviewed the data dictionary to understand the available
+variables, checked the property and transaction information, and
+examined the historical coverage to decide which records would be
+suitable for our experiments. Compared with the websites we tested, the
+Council data provided more structured property information and a longer
+sales history. It also gave us a better starting point for linking
+external data and training models on consistent property records. We
+kept the preliminary web-scraped data as a backup, rather than using it
+as our main modelling dataset.
+
+We kept the data collected from our initial web-scraping experiments in
+a shared Google Drive folder for reference. These records were not used
+to train or evaluate our final models.
+
+\begin{figure*}[t]
+  \centering
+  \figph{../figures/data_source_selection.png}{2.5cm}{Data source
+  selection process.}
+  \caption{Data source selection process. We explored several property
+  websites, tested web scraping, reviewed data quality, and compared the
+  available sources before selecting Auckland Council sales data for
+  modelling.}
+  \label{fig:datasource}
+\end{figure*}
+
+After selecting Auckland Council data as our main source, we built a
+pipeline to prepare the dataset, train the models and test our
+hypotheses. All code is available online.\footnote{\url{https://github.com/hugn456/COMPSCI_760_Group_3_Intelligent_Real_Estate_Price_Prediction_Model}}
 Fig.~\ref{fig:pipeline} gives an overview. Steps 1--4 build the dataset
 (Sections~\ref{sec:sales}--\ref{sec:features}); steps 5--8 train,
 test and explain the models
@@ -711,6 +767,8 @@ we use SHAP's permutation explainer with 100 training sales as
 background.
 
 \subsection{Online valuation benchmark}\label{sec:onlineval}
+We initially explored homes.co.nz and OneRoof as possible sources of
+property data, but did not use their data to train our final models.
 To test the second half of RQ2, we compared our model with two free
 automated estimates: HomesEstimate on homes.co.nz~\cite{homesnz} and the
 OneRoof estimate~\cite{oneroof}. Online estimates are updated after a
@@ -1032,6 +1090,132 @@ give no reason for their numbers. Closing this gap is the clearest next
 step: adding property details beyond the council records should improve
 accuracy while keeping the explanations.
 
+\subsection{Additional analyses}\label{sec:res-additional}
+Besides testing our main research questions, we also wanted to apply
+what we learned in COMPSCI 760 to explore two additional areas:
+prediction reliability and time-series forecasting. For prediction
+reliability, we examined whether our model tended to overestimate or
+underestimate properties in different price ranges. For time-series
+forecasting, we used historical sales data to predict Auckland's monthly
+median house price. These experiments helped us understand other
+aspects of house price prediction that were not fully covered by our
+main model comparisons.
+
+\subsubsection{Fairness and prediction reliability}
+Although our models achieved good overall accuracy, we also wanted to
+see whether their predictions were equally reliable for different types
+of properties. We therefore carried out a separate analysis using
+Random Forest and LightGBM~\cite{ke2017lightgbm} to examine prediction
+errors across different sale-price ranges. These models were trained
+using an earlier version of our dataset, so their results are reported
+separately from the main model comparison.
+
+As shown in Fig.~\ref{fig:rel-mae}, both models made larger errors in
+dollar terms for more expensive properties. For example, LightGBM's mean
+absolute error (MAE) increased from \$91,886 for properties sold below
+\$750,000 to \$400,321 for properties sold at \$2 million or more. This
+suggests that the models had more difficulty predicting the prices of
+expensive properties, although larger dollar errors do not necessarily
+mean larger percentage errors.
+
+\begin{figure}[t]
+  \centering
+  \figph{../figures/reliability_mae_by_price_band.png}{3.2cm}{MAE by
+  sale-price band.}
+  \caption{Mean absolute error by observed sale-price band for
+  separately trained Random Forest and LightGBM models.}
+  \label{fig:rel-mae}
+\end{figure}
+
+We also examined whether the models tended to predict prices above or
+below the actual sale prices. Fig.~\ref{fig:rel-bias} shows that both
+Random Forest and LightGBM generally overestimated lower-priced
+properties and underestimated more expensive ones. This pattern is
+consistent with predictions being drawn towards the middle of the price
+distribution.
+
+\begin{figure}[t]
+  \centering
+  \figph{../figures/reliability_bias_by_price_band.png}{3.2cm}{Signed
+  error by sale-price band.}
+  \caption{Mean signed prediction error (predicted minus actual) by
+  observed sale-price band for separately trained Random Forest and
+  LightGBM models. Positive values indicate overestimation, while
+  negative values indicate underestimation.}
+  \label{fig:rel-bias}
+\end{figure}
+
+These findings show why overall accuracy alone is not enough to assess
+prediction reliability. A model may achieve a relatively low average
+error while still making larger or more systematic errors for certain
+property groups. In this analysis, fairness refers to differences in
+prediction reliability across observable property groups. We do not draw
+conclusions about discrimination against demographic groups, as our data
+does not support that assessment.
+
+\subsubsection{Time series forecasting}
+Besides predicting individual property prices, we also wanted to
+investigate whether historical sales data could help us forecast changes
+in Auckland's housing market. For this separate experiment, we used an
+earlier version of our eligible sales dataset and calculated monthly
+median sale prices from 59,281 transactions between January 2024 and
+June 2026. We excluded July and August 2026 because the available
+records for those months were incomplete. Unlike our main property-price
+prediction experiments, this analysis focused on forecasting monthly
+market prices rather than the sale price of individual homes.
+
+We compared eight forecasting methods, including previous-month and
+seasonal-naive forecasts, exponential smoothing and ARIMA-based
+approaches~\cite{hyndman2021fpp}. The 30-month series was divided
+chronologically into 18 training months, six validation months and six
+test months, as shown in Fig.~\ref{fig:ts-series}. We used the
+validation period to select the best-performing method before
+evaluating it on the final test period.
+
+\begin{figure}[t]
+  \centering
+  \figph{../figures/forecast_monthly_median.png}{3.2cm}{Monthly median
+  sale prices.}
+  \caption{Recorded monthly median sale prices from the earlier
+  eligible-sales dataset, with the six-month validation and test periods
+  shaded.}
+  \label{fig:ts-series}
+\end{figure}
+
+Seasonal Naive achieved the lowest validation mean absolute error (MAE)
+of \$6,625. This method predicts each month's median sale price using
+the value from the same month in the previous year. As shown in
+Fig.~\ref{fig:ts-forecast}, it achieved an MAE of \$9,500 and an RMSE of
+approximately \$13,054 during the six-month test period from January to
+June 2026.
+
+\begin{figure}[t]
+  \centering
+  \figph{../figures/forecast_seasonal_naive.png}{3.2cm}{Seasonal Naive
+  forecasts.}
+  \caption{Actual monthly median sale prices compared with Seasonal
+  Naive forecasts over the six-month test period.}
+  \label{fig:ts-forecast}
+\end{figure}
+
+We also tested whether historical market information could improve
+individual property-price predictions. In a separate Random Forest
+experiment using an earlier modelling setup, we added past monthly
+median prices, rolling statistics and transaction counts. The test MAE
+increased slightly from \$160,489 to \$161,496, suggesting that these
+features did not improve that particular model. These results are not
+directly comparable with the Random Forest results reported in our main
+model comparison.
+
+These findings suggest that historical price information can be useful
+for forecasting monthly market prices without necessarily improving
+individual property predictions. However, our forecasting experiment
+covered only 30 months, with six months available for final testing.
+Also, monthly median sale prices depend on which properties were sold
+during each month, so they do not necessarily reflect changes in the
+value of a typical home. A longer historical dataset would help us
+assess how well these methods perform under different market conditions.
+
 %% ============= V. LIMITATIONS, VI. CONCLUSION ========================
 \section{Limitations}\label{sec:limits}
 First, our results cover only part of the market. Because the price
@@ -1062,6 +1246,14 @@ feature.
 Fourth, we fixed every model's settings to keep the comparisons fair.
 This means that a project that only cared about accuracy could tune each
 model and would likely do somewhat better than every number here.
+
+Fifth, our additional analyses have some limitations. The prediction
+reliability experiments used earlier versions of our dataset and
+separately trained models, so their findings cannot be directly applied
+to the final XGBoost model. The time-series forecasting experiment
+covered only 30 months, with six months used for final testing. A longer
+historical dataset would help us understand whether the forecasting
+results remain reliable under different market conditions.
 
 Lastly, the online benchmark is small. It uses 45 homes from three
 weeks of sales, mostly in the middle of the market, and two online
@@ -1112,6 +1304,16 @@ city-wide model. For a team building a similar model with limited time,
 an accurate coordinate (here, good record linkage) and a few location
 measures are worth more than many extra area features.
 
+Our additional experiments also highlighted two other aspects of house
+price prediction. The prediction reliability analysis showed that errors
+were not evenly distributed across property price ranges, with larger
+errors and more frequent underestimation for expensive properties. The
+time-series forecasting experiment showed that a simple seasonal-naive
+method could produce reasonably accurate monthly median price forecasts
+over the six-month test period. These findings suggest that evaluating
+property prices requires looking beyond overall model accuracy, although
+further testing would be needed to confirm the results.
+
 The main drawbacks are that the model is less accurate than commercial
 online estimates and misses most on unusual homes, that area
 data is coarse and fixed in time, and that SHAP shows association, not
@@ -1132,29 +1334,33 @@ sales~\cite{soltani2022}.
 % Not counted in the 12 pages. One or two specific sentences per member:
 % coding, experiments, analysis, visualisation and writing.
 \section*{Contributions}
-Larger tasks, such as preparing the external features and gathering the
-online estimates, were split into smaller parts shared between members.
+Some tasks were split into smaller parts and shared between members, and
+each member produced the data visualisations for their own part.
 
 \noindent\textbf{Dominik Wecke:} Designed the methodology and project
 plan; prepared, filtered and cleaned the Auckland Council data; performed
 the Splink record linkage; gathered the online valuation estimates;
 contributed to the results analysis; wrote the Methodology section.
 
-\noindent\textbf{Huy Nguyen:} Led the literature review; produced data
-visualisations; coded and trained the random forest model; wrote the
-Introduction and Related Work sections.
+\noindent\textbf{Huy Nguyen:} Led the literature review; explored the
+candidate data sources and wrote the web-scraping scripts; carried out
+the additional analyses on prediction reliability and time-series
+forecasting; wrote the Related Work section, the data source selection
+and the additional analyses.
 
 \noindent\textbf{Jiayi Du:} Prepared external data; analysed the data;
 coded and trained the CatBoost model; performed the error analysis;
-co-wrote the Experiments and Results section.
+wrote the Introduction and co-wrote the Experiments and Results
+section.
 
 \noindent\textbf{Thao Nguyen:} Built the data processing pipeline;
 prepared external features; trained the XGBoost model; gathered the
 online valuation estimates and compared them with our model; wrote the
 Limitations and the Conclusion and Future Work sections.
 
-\noindent\textbf{Xiang Yang:} Prepared external features; experimented
-with the neural network; studied the hedonic model; analysed the results
+\noindent\textbf{Xiang Yang:} Prepared external features; coded and
+trained the random forest model; experimented with the neural network;
+studied the hedonic model; analysed the results
 and produced the SHAP explanations; co-wrote the Experiments and Results
 section.
 

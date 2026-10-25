@@ -245,6 +245,17 @@ L.~Grinsztajn, E.~Oyallon, and G.~Varoquaux, ``Why do tree-based models still
   Neural Inf. Process. Syst. (NeurIPS), Datasets and Benchmarks Track},
   vol.~35, 2022.
 
+\bibitem{ke2017lightgbm}
+G.~Ke, Q.~Meng, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T.-Y. Liu,
+  ``{LightGBM}: A highly efficient gradient boosting decision tree,'' in
+  \emph{Proc. Adv. Neural Inf. Process. Syst. (NeurIPS)}, vol.~30, 2017, pp.
+  3146--3154.
+
+\bibitem{hyndman2021fpp}
+R.~J. Hyndman and G.~Athanasopoulos, \emph{Forecasting: Principles and
+  Practice}, 3rd~ed.\hskip 1em plus 0.5em minus 0.4em\relax Melbourne,
+  Australia: OTexts, 2021.
+
 \bibitem{li2024geoshapley}
 Z.~Li, ``{GeoShapley}: A game theory approach to measuring spatial effects in
   machine learning models,'' \emph{Ann. Amer. Assoc. Geographers}, vol. 114,
