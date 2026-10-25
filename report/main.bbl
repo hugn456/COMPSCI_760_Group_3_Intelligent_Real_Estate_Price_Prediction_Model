@@ -61,6 +61,14 @@ S.~M. Lundberg and S.-I. Lee, ``A unified approach to interpreting model
   predictions,'' in \emph{Proc. Adv. Neural Inf. Process. Syst. (NeurIPS)},
   vol.~30, 2017, pp. 4765--4774.
 
+\bibitem{uam_docs}
+\BIBentryALTinterwordspacing
+{Ministry of Justice Analytical Services}, ``uk\_address\_matcher: Address
+  matching with {Splink},'' 2026, {Accessed}: Oct. 25, 2026. [Online].
+  Available:
+  \url{https://moj-analytical-services.github.io/uk_address_matcher/}
+\BIBentrySTDinterwordspacing
+
 \bibitem{linacre2022}
 \BIBentryALTinterwordspacing
 R.~Linacre, S.~Lindsay, T.~Manassis, Z.~Slade, and T.~Hepworth, ``Splink: Free
@@ -115,10 +123,6 @@ Y.~Chen, Y.~Ye, X.~Liu, C.~Yin, and C.~A. Jones, ``Examining the nonlinear and
   spatial heterogeneity of housing prices in urban {Beijing}: An application of
   {GeoShapley},'' \emph{Habitat Int.}, vol. 162, p. 103439, 2025.
 
-\bibitem{fellegi1969}
-I.~P. Fellegi and A.~B. Sunter, ``A theory for record linkage,'' \emph{J. Amer.
-  Stat. Assoc.}, vol.~64, no. 328, pp. 1183--1210, 1969.
-
 \bibitem{akl_dvr}
 {Auckland Council}, ``District valuation roll and property sales data ({DVR}
   and {DVRS} files),'' Auckland Council, Auckland, New Zealand, 2026, {Extract}
@@ -137,6 +141,10 @@ I.~P. Fellegi and A.~B. Sunter, ``A theory for record linkage,'' \emph{J. Amer.
   linkage documentation,'' {Accessed}: Oct. 21, 2026. [Online]. Available:
   \url{https://moj-analytical-services.github.io/splink/}
 \BIBentrySTDinterwordspacing
+
+\bibitem{fellegi1969}
+I.~P. Fellegi and A.~B. Sunter, ``A theory for record linkage,'' \emph{J. Amer.
+  Stat. Assoc.}, vol.~64, no. 328, pp. 1183--1210, 1969.
 
 \bibitem{moe_schools}
 \BIBentryALTinterwordspacing
@@ -225,9 +233,11 @@ B.~Efron and R.~J. Tibshirani, \emph{An Introduction to the Bootstrap}.\hskip
   Jul. 9, 2026. [Online]. Available: \url{https://homes.co.nz}
 \BIBentrySTDinterwordspacing
 
-\bibitem{wilcoxon1945}
-F.~Wilcoxon, ``Individual comparisons by ranking methods,'' \emph{Biometrics
-  Bull.}, vol.~1, no.~6, pp. 80--83, 1945.
+\bibitem{oneroof}
+\BIBentryALTinterwordspacing
+{OneRoof}, ``{OneRoof} property value estimates,'' 2026, {Accessed}: Jul. 2026.
+  [Online]. Available: \url{https://www.oneroof.co.nz}
+\BIBentrySTDinterwordspacing
 
 \bibitem{grinsztajn2022}
 L.~Grinsztajn, E.~Oyallon, and G.~Varoquaux, ``Why do tree-based models still

@@ -10,6 +10,7 @@
 \citation{shmueli2010}
 \citation{ceh2018,an2025}
 \citation{lundberg2017}
+\citation{uam_docs}
 \citation{linacre2022}
 \@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{section.1}\protected@file@percent }
 \newlabel{sec:intro}{{I}{1}{Introduction}{section.1}{}}
@@ -30,8 +31,6 @@
 \citation{neves2024}
 \citation{lee2025}
 \citation{chen2025beijing}
-\citation{fellegi1969}
-\citation{linacre2022}
 \citation{akl_dvr}
 \citation{linz_addresses}
 \@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{2}{section.2}\protected@file@percent }
@@ -39,14 +38,13 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Hedonic models and outside factors in Auckland}{2}{subsection.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Machine learning versus hedonic models}{2}{subsection.2.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}External data and explainable models}{2}{subsection.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-D}}Record linkage}{2}{subsection.2.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {III}Methodology}{2}{section.3}\protected@file@percent }
 \newlabel{sec:method}{{III}{2}{Methodology}{section.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Auckland sales data}{2}{subsection.3.1}\protected@file@percent }
 \newlabel{sec:sales}{{\mbox  {III-A}}{2}{Auckland sales data}{subsection.3.1}{}}
+\citation{uam_docs}
 \citation{linacre2022,splink_docs}
 \citation{fellegi1969}
-\citation{linacre2022}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The full pipeline. Blue steps build the dataset; orange steps train, test and explain the models.}}{3}{figure.1}\protected@file@percent }
 \newlabel{fig:pipeline}{{1}{3}{The full pipeline. Blue steps build the dataset; orange steps train, test and explain the models}{figure.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Linking sales to coordinates with Splink}{3}{subsection.3.2}\protected@file@percent }
@@ -67,16 +65,15 @@
 \citation{akl_gis}
 \citation{statsnz}
 \citation{soltani2022}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}External features and feature sets}{4}{subsection.3.4}\protected@file@percent }
+\newlabel{sec:external}{{\mbox  {III-D}}{4}{External features and feature sets}{subsection.3.4}{}}
+\newlabel{sec:features}{{\mbox  {III-D}}{4}{External features and feature sets}{table.2}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces External features, their sources and how each was linked}}{4}{table.2}\protected@file@percent }
 \newlabel{tab:sources}{{II}{4}{External features, their sources and how each was linked}{table.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Linking external features}{4}{subsection.3.4}\protected@file@percent }
-\newlabel{sec:external}{{\mbox  {III-D}}{4}{Linking external features}{subsection.3.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}Feature sets}{4}{subsection.3.5}\protected@file@percent }
-\newlabel{sec:features}{{\mbox  {III-E}}{4}{Feature sets}{subsection.3.5}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Feature sets}}{4}{table.3}\protected@file@percent }
 \newlabel{tab:features}{{III}{4}{Feature sets}{table.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-F}}Training and testing over time}{4}{subsection.3.6}\protected@file@percent }
-\newlabel{sec:split}{{\mbox  {III-F}}{4}{Training and testing over time}{subsection.3.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}Training and testing on time-based cross-validation folds}{4}{subsection.3.5}\protected@file@percent }
+\newlabel{sec:split}{{\mbox  {III-E}}{4}{Training and testing on time-based cross-validation folds}{subsection.3.5}{}}
 \citation{chen2016xgboost}
 \citation{ceh2018,an2025}
 \citation{breiman2001}
@@ -86,66 +83,65 @@
 \citation{efron1993}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Five-fold expanding-window cross-validation. Each fold trains on all earlier sales and tests on the next period.}}{5}{figure.2}\protected@file@percent }
 \newlabel{fig:folds}{{2}{5}{Five-fold expanding-window cross-validation. Each fold trains on all earlier sales and tests on the next period}{figure.2}{}}
-\newlabel{eq:mae}{{2}{5}{Training and testing over time}{equation.2}{}}
-\newlabel{eq:rmse}{{3}{5}{Training and testing over time}{equation.3}{}}
-\newlabel{eq:mape}{{4}{5}{Training and testing over time}{equation.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-G}}Models}{5}{subsection.3.7}\protected@file@percent }
-\newlabel{sec:models}{{\mbox  {III-G}}{5}{Models}{subsection.3.7}{}}
-\newlabel{sec:hedonic}{{\mbox  {III-G}}{5}{Models}{subsection.3.7}{}}
+\newlabel{eq:mae}{{2}{5}{Training and testing on time-based cross-validation folds}{equation.2}{}}
+\newlabel{eq:rmse}{{3}{5}{Training and testing on time-based cross-validation folds}{equation.3}{}}
+\newlabel{eq:mape}{{4}{5}{Training and testing on time-based cross-validation folds}{equation.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-F}}Models}{5}{subsection.3.6}\protected@file@percent }
+\newlabel{sec:models}{{\mbox  {III-F}}{5}{Models}{subsection.3.6}{}}
+\newlabel{sec:hedonic}{{\mbox  {III-F}}{5}{Models}{subsection.3.6}{}}
 \newlabel{eq:hedonic}{{5}{5}{Models}{equation.5}{}}
 \newlabel{eq:smearing}{{6}{5}{Models}{equation.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-H}}Testing the hypotheses}{5}{subsection.3.8}\protected@file@percent }
-\newlabel{sec:tests}{{\mbox  {III-H}}{5}{Testing the hypotheses}{subsection.3.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-G}}Testing the hypotheses}{5}{subsection.3.7}\protected@file@percent }
+\newlabel{sec:tests}{{\mbox  {III-G}}{5}{Testing the hypotheses}{subsection.3.7}{}}
 \newlabel{eq:bootstrap}{{7}{5}{Testing the hypotheses}{equation.7}{}}
 \citation{lundberg2017}
 \citation{homesnz}
-\citation{wilcoxon1945}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-I}}Which external features matter}{6}{subsection.3.9}\protected@file@percent }
-\newlabel{sec:attribution}{{\mbox  {III-I}}{6}{Which external features matter}{subsection.3.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-J}}Explaining single predictions}{6}{subsection.3.10}\protected@file@percent }
-\newlabel{sec:explain}{{\mbox  {III-J}}{6}{Explaining single predictions}{subsection.3.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-K}}Online valuation benchmark}{6}{subsection.3.11}\protected@file@percent }
-\newlabel{sec:onlineval}{{\mbox  {III-K}}{6}{Online valuation benchmark}{subsection.3.11}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces H1: baseline (property only) vs.\ augmented (with external features), XGBoost, pooled over 5 folds, $n=48{,}777$}}{6}{table.4}\protected@file@percent }
-\newlabel{tab:ablation}{{IV}{6}{H1: baseline (property only) vs.\ augmented (with external features), XGBoost, pooled over 5 folds, $n=48{,}777$}{table.4}{}}
+\citation{oneroof}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-H}}Measuring feature importance}{6}{subsection.3.8}\protected@file@percent }
+\newlabel{sec:attribution}{{\mbox  {III-H}}{6}{Measuring feature importance}{subsection.3.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-I}}Explaining single predictions}{6}{subsection.3.9}\protected@file@percent }
+\newlabel{sec:explain}{{\mbox  {III-I}}{6}{Explaining single predictions}{subsection.3.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-J}}Online valuation benchmark}{6}{subsection.3.10}\protected@file@percent }
+\newlabel{sec:onlineval}{{\mbox  {III-J}}{6}{Online valuation benchmark}{subsection.3.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Baseline (property only) vs.\ augmented (with external features), XGBoost, pooled over 5 folds, $n=48{,}777$}}{6}{table.4}\protected@file@percent }
+\newlabel{tab:ablation}{{IV}{6}{Baseline (property only) vs.\ augmented (with external features), XGBoost, pooled over 5 folds, $n=48{,}777$}{table.4}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Pooled error of the baseline and augmented XGBoost models.}}{6}{figure.3}\protected@file@percent }
 \newlabel{fig:ablation}{{3}{6}{Pooled error of the baseline and augmented XGBoost models}{figure.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {IV}Experiments and Results}{6}{section.4}\protected@file@percent }
 \newlabel{sec:results}{{IV}{6}{Experiments and Results}{section.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}H1: Does external data help?}{6}{subsection.4.1}\protected@file@percent }
-\newlabel{sec:res-ablation}{{\mbox  {IV-A}}{6}{H1: Does external data help?}{subsection.4.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}H2: Do external features add new information?}{6}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Results of the baseline and augmented models}{6}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:res-ablation}{{\mbox  {IV-A}}{6}{Results of the baseline and augmented models}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Impact of external features}{6}{subsection.4.2}\protected@file@percent }
 \citation{grinsztajn2022}
-\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Importance of the external feature groups on fold~5. Permutation: RMSE increase when the group is shuffled. SHAP: share of total mean $|$SHAP$|$. Drop-group: RMSE change when the model is retrained without the group (negative = slightly better without it).}}{7}{table.5}\protected@file@percent }
-\newlabel{tab:attribution}{{V}{7}{Importance of the external feature groups on fold~5. Permutation: RMSE increase when the group is shuffled. SHAP: share of total mean $|$SHAP$|$. Drop-group: RMSE change when the model is retrained without the group (negative = slightly better without it)}{table.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Which external features matter?}{7}{subsection.4.3}\protected@file@percent }
-\newlabel{sec:res-attribution}{{\mbox  {IV-C}}{7}{Which external features matter?}{subsection.4.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Importance of the external feature groups on fold~5, by the three methods of Section~\ref {sec:attribution} (a negative drop-group value means the model was slightly better without the group)}}{7}{table.5}\protected@file@percent }
+\newlabel{tab:attribution}{{V}{7}{Importance of the external feature groups on fold~5, by the three methods of Section~\ref {sec:attribution} (a negative drop-group value means the model was slightly better without the group)}{table.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Analysis of external features}{7}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:res-attribution}{{\mbox  {IV-C}}{7}{Analysis of external features}{subsection.4.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces SHAP summary for the augmented XGBoost model on 500 fold-5 test sales (15 most important features). Each dot is one sale; colour shows the feature's value.}}{7}{figure.4}\protected@file@percent }
 \newlabel{fig:shap}{{4}{7}{SHAP summary for the augmented XGBoost model on 500 fold-5 test sales (15 most important features). Each dot is one sale; colour shows the feature's value}{figure.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces H3: all models on the same features and folds, pooled, $n=48{,}777$. Time is for training all five folds.}}{7}{table.6}\protected@file@percent }
-\newlabel{tab:models}{{VI}{7}{H3: all models on the same features and folds, pooled, $n=48{,}777$. Time is for training all five folds}{table.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}H3: Comparing five models}{7}{subsection.4.4}\protected@file@percent }
-\newlabel{sec:res-models}{{\mbox  {IV-D}}{7}{H3: Comparing five models}{subsection.4.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces All models on the same features and folds, pooled, $n=48{,}777$. Time is for training all five folds.}}{7}{table.6}\protected@file@percent }
+\newlabel{tab:models}{{VI}{7}{All models on the same features and folds, pooled, $n=48{,}777$. Time is for training all five folds}{table.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Comparison of five models}{7}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:res-models}{{\mbox  {IV-D}}{7}{Comparison of five models}{subsection.4.4}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces Share of total mean $|$SHAP$|$ (\%) for leading features, same 500 fold-5 test sales. RF = random forest, NN = neural network.}}{8}{table.7}\protected@file@percent }
 \newlabel{tab:shapmodels}{{VII}{8}{Share of total mean $|$SHAP$|$ (\%) for leading features, same 500 fold-5 test sales. RF = random forest, NN = neural network}{table.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}RQ2: Accuracy versus interpretability}{8}{subsection.4.5}\protected@file@percent }
-\newlabel{sec:res-hedonic}{{\mbox  {IV-E}}{8}{RQ2: Accuracy versus interpretability}{subsection.4.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-F}}Explaining a single prediction}{8}{subsection.4.6}\protected@file@percent }
-\newlabel{sec:res-explain}{{\mbox  {IV-F}}{8}{Explaining a single prediction}{subsection.4.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Accuracy versus interpretability}{8}{subsection.4.5}\protected@file@percent }
+\newlabel{sec:res-hedonic}{{\mbox  {IV-E}}{8}{Accuracy versus interpretability}{subsection.4.5}{}}
+\newlabel{sec:res-explain}{{\mbox  {IV-E}}{8}{Accuracy versus interpretability}{subsection.4.5}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces SHAP explanation of one held-out sale (XGBoost, fold~5). Bars run from the average prediction to the model's prediction; red raises the price and blue lowers it. Lines mark the average, predicted and actual price.}}{8}{figure.5}\protected@file@percent }
 \newlabel{fig:house}{{5}{8}{SHAP explanation of one held-out sale (XGBoost, fold~5). Bars run from the average prediction to the model's prediction; red raises the price and blue lowers it. Lines mark the average, predicted and actual price}{figure.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces RQ2: our model vs.\ homes.co.nz on the same 46 homes (sold 28 July -- 18 August 2026; online estimates recorded 9 July 2026)}}{8}{table.8}\protected@file@percent }
-\newlabel{tab:online}{{VIII}{8}{RQ2: our model vs.\ homes.co.nz on the same 46 homes (sold 28 July -- 18 August 2026; online estimates recorded 9 July 2026)}{table.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-G}}RQ2: Comparison with online valuation estimates}{8}{subsection.4.7}\protected@file@percent }
-\newlabel{sec:res-online}{{\mbox  {IV-G}}{8}{RQ2: Comparison with online valuation estimates}{subsection.4.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Absolute error for each of the 46 homes, our model (to 24 Jan) vs.\ homes.co.nz (9 July). Homes are sorted from where our model does best relative to homes.co.nz (left) to where it does worst (right); the dashed line separates the 17 homes where ours is closer from the 29 where homes.co.nz is closer.}}{9}{figure.6}\protected@file@percent }
-\newlabel{fig:online-homes}{{6}{9}{Absolute error for each of the 46 homes, our model (to 24 Jan) vs.\ homes.co.nz (9 July). Homes are sorted from where our model does best relative to homes.co.nz (left) to where it does worst (right); the dashed line separates the 17 homes where ours is closer from the 29 where homes.co.nz is closer}{figure.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces Our model vs.\ two online tools on the same 45 homes (sold 28 July -- 18 August 2026; online estimates recorded in early July 2026)}}{8}{table.8}\protected@file@percent }
+\newlabel{tab:online}{{VIII}{8}{Our model vs.\ two online tools on the same 45 homes (sold 28 July -- 18 August 2026; online estimates recorded in early July 2026)}{table.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-F}}Comparison with online valuation estimates}{8}{subsection.4.6}\protected@file@percent }
+\newlabel{sec:res-online}{{\mbox  {IV-F}}{8}{Comparison with online valuation estimates}{subsection.4.6}{}}
+\citation{li2024geoshapley}
+\citation{soltani2022}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Absolute error for each of the 45 homes: our model (to 24 Jan), homes.co.nz and OneRoof (both early July). Homes are sorted from where our model does best relative to the better online tool (left) to where it does worst (right); the dashed line separates the 12 homes where ours is closest from the 33 where an online tool is closer.}}{9}{figure.6}\protected@file@percent }
+\newlabel{fig:online-homes}{{6}{9}{Absolute error for each of the 45 homes: our model (to 24 Jan), homes.co.nz and OneRoof (both early July). Homes are sorted from where our model does best relative to the better online tool (left) to where it does worst (right); the dashed line separates the 12 homes where ours is closest from the 33 where an online tool is closer}{figure.6}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {V}Limitations}{9}{section.5}\protected@file@percent }
 \newlabel{sec:limits}{{V}{9}{Limitations}{section.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion and Future Work}{9}{section.6}\protected@file@percent }
 \newlabel{sec:conclusion}{{VI}{9}{Conclusion and Future Work}{section.6}{}}
-\citation{li2024geoshapley}
-\citation{soltani2022}
 \bibstyle{IEEEtran}
 \bibdata{references.bib}
 \bibcite{samarasinghe2010}{1}
@@ -156,37 +152,38 @@
 \bibcite{ceh2018}{6}
 \bibcite{an2025}{7}
 \bibcite{lundberg2017}{8}
-\bibcite{linacre2022}{9}
-\bibcite{rosen1974}{10}
-\bibcite{bourassa2007}{11}
-\bibcite{bui2024}{12}
-\bibcite{antipov2012}{13}
-\bibcite{chen2016xgboost}{14}
-\bibcite{soltani2022}{15}
-\bibcite{neves2024}{16}
-\bibcite{lee2025}{17}
-\bibcite{chen2025beijing}{18}
-\bibcite{fellegi1969}{19}
+\bibcite{uam_docs}{9}
+\bibcite{linacre2022}{10}
+\bibcite{rosen1974}{11}
+\bibcite{bourassa2007}{12}
+\bibcite{bui2024}{13}
+\bibcite{antipov2012}{14}
+\bibcite{chen2016xgboost}{15}
+\bibcite{soltani2022}{16}
+\bibcite{neves2024}{17}
+\bibcite{lee2025}{18}
+\bibcite{chen2025beijing}{19}
 \bibcite{akl_dvr}{20}
 \bibcite{linz_addresses}{21}
 \bibcite{splink_docs}{22}
-\bibcite{moe_schools}{23}
-\bibcite{linz_coast}{24}
-\bibcite{osm}{25}
-\bibcite{at_gtfs}{26}
-\bibcite{nzdep2023}{27}
-\bibcite{statsnz_sa2}{28}
-\bibcite{statsnz_census}{29}
-\bibcite{akl_gis}{30}
-\bibcite{statsnz}{31}
-\bibcite{breiman2001}{32}
-\bibcite{prokhorenkova2018}{33}
-\bibcite{kingma2015}{34}
-\bibcite{duan1983}{35}
+\bibcite{fellegi1969}{23}
+\bibcite{moe_schools}{24}
+\bibcite{linz_coast}{25}
+\bibcite{osm}{26}
+\bibcite{at_gtfs}{27}
+\bibcite{nzdep2023}{28}
+\bibcite{statsnz_sa2}{29}
+\bibcite{statsnz_census}{30}
+\bibcite{akl_gis}{31}
+\bibcite{statsnz}{32}
+\bibcite{breiman2001}{33}
+\bibcite{prokhorenkova2018}{34}
+\bibcite{kingma2015}{35}
+\bibcite{duan1983}{36}
 \@writefile{toc}{\contentsline {section}{References}{10}{section*.2}\protected@file@percent }
-\bibcite{efron1993}{36}
-\bibcite{homesnz}{37}
-\bibcite{wilcoxon1945}{38}
-\bibcite{grinsztajn2022}{39}
-\bibcite{li2024geoshapley}{40}
+\bibcite{efron1993}{37}
+\bibcite{homesnz}{38}
+\bibcite{oneroof}{39}
+\bibcite{grinsztajn2022}{40}
+\bibcite{li2024geoshapley}{41}
 \gdef \@abspage@last{11}
