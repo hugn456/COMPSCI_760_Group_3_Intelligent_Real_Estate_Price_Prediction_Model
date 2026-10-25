@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.10.23)  25 OCT 2026 22:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.10.23)  25 OCT 2026 22:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -777,13 +777,13 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 8
 (C:\Users\AD\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 131
+LaTeX Font Info:    Trying to load font information for U+msa on input line 132
 .
 
 (C:\Users\AD\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 131
+LaTeX Font Info:    Trying to load font information for U+msb on input line 132
 .
 
 (C:\Users\AD\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
@@ -797,16 +797,16 @@ AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 File: ../figures/data_source_selection.png Graphic file (type png)
 <use ../figures/data_source_selection.png>
 Package pdftex.def Info: ../figures/data_source_selection.png  used on input li
-ne 312.
+ne 313.
 (pdftex.def)             Requested size: 516.0pt x 64.14383pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 322--322
+Underfull \hbox (badness 10000) in paragraph at lines 323--323
 [][][][][]$\OT1/ptm/m/n/8 https : / / github . com / hugn456 / COMPSCI[]760[]Gr
 oup[]3[]Intelligent[]Real[]
  []
 
 
-Underfull \hbox (badness 3977) in paragraph at lines 390--401
+Underfull \hbox (badness 3977) in paragraph at lines 391--402
 []\OT1/ptm/m/n/10 We there-fore used prob-a-bilis-tic record link-age with
  []
 
@@ -814,78 +814,78 @@ Underfull \hbox (badness 3977) in paragraph at lines 390--401
 <../figures/timeseries_split.png, id=256, 787.38165pt x 225.84375pt>
 File: ../figures/timeseries_split.png Graphic file (type png)
 <use ../figures/timeseries_split.png>
-Package pdftex.def Info: ../figures/timeseries_split.png  used on input line 61
-9.
+Package pdftex.def Info: ../figures/timeseries_split.png  used on input line 62
+0.
 (pdftex.def)             Requested size: 252.0pt x 72.27835pt.
  [5 <../figures/timeseries_split.png>] [6]
 <../figures/baseline_vs_augmented_metrics.png, id=306, 513.117pt x 164.7756pt>
 File: ../figures/baseline_vs_augmented_metrics.png Graphic file (type png)
 <use ../figures/baseline_vs_augmented_metrics.png>
 Package pdftex.def Info: ../figures/baseline_vs_augmented_metrics.png  used on 
-input line 835.
+input line 836.
 (pdftex.def)             Requested size: 252.0pt x 80.92427pt.
  [7 <../figures/baseline_vs_augmented_metrics.png>]
 <../figures/shap_xgboost_fold5.png, id=327, 500.8311pt x 368.0952pt>
 File: ../figures/shap_xgboost_fold5.png Graphic file (type png)
 <use ../figures/shap_xgboost_fold5.png>
 Package pdftex.def Info: ../figures/shap_xgboost_fold5.png  used on input line 
-914.
+915.
 (pdftex.def)             Requested size: 252.0pt x 185.2098pt.
  [8 <../figures/shap_xgboost_fold5.png>]
-Underfull \hbox (badness 6204) in paragraph at lines 1014--1016
+Underfull \hbox (badness 6204) in paragraph at lines 1015--1017
 \OT1/ptm/m/n/10 out-weighs its 16.9 km dis-tance from the CBD
  []
 
-<../figures/house_explanation.png, id=341, 781.2387pt x 456.0237pt>
+<../figures/house_explanation.png, id=340, 781.2387pt x 456.0237pt>
 File: ../figures/house_explanation.png Graphic file (type png)
 <use ../figures/house_explanation.png>
 Package pdftex.def Info: ../figures/house_explanation.png  used on input line 1
-030.
+031.
 (pdftex.def)             Requested size: 252.0pt x 147.0926pt.
-<../figures/online_valuation_per_home_report.png, id=344, 247.1634pt x 171.7617
+<../figures/online_valuation_per_home_report.png, id=343, 247.1634pt x 171.7617
 pt>
 File: ../figures/online_valuation_per_home_report.png Graphic file (type png)
 <use ../figures/online_valuation_per_home_report.png>
 Package pdftex.def Info: ../figures/online_valuation_per_home_report.png  used 
-on input line 1069.
+on input line 1070.
 (pdftex.def)             Requested size: 252.0pt x 175.12646pt.
 [9 <../figures/house_explanation.png> <../figures/online_valuation_per_home_rep
 ort.png>]
-<../figures/reliability_mae_by_price_band.png, id=358, 570.933pt x 236.96953pt>
+<../figures/reliability_mae_by_price_band.png, id=357, 570.933pt x 236.96953pt>
 
 File: ../figures/reliability_mae_by_price_band.png Graphic file (type png)
 <use ../figures/reliability_mae_by_price_band.png>
 Package pdftex.def Info: ../figures/reliability_mae_by_price_band.png  used on 
-input line 1124.
+input line 1125.
 (pdftex.def)             Requested size: 252.0pt x 104.59595pt.
-<../figures/reliability_bias_by_price_band.png, id=360, 570.933pt x 244.19653pt
+<../figures/reliability_bias_by_price_band.png, id=359, 570.933pt x 244.19653pt
 >
 File: ../figures/reliability_bias_by_price_band.png Graphic file (type png)
 <use ../figures/reliability_bias_by_price_band.png>
 Package pdftex.def Info: ../figures/reliability_bias_by_price_band.png  used on
- input line 1140.
+ input line 1141.
 (pdftex.def)             Requested size: 252.0pt x 107.78587pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1167--1174
+Underfull \hbox (badness 10000) in paragraph at lines 1168--1175
 []\OT1/ptm/m/n/10 We com-pared eight fore-cast-ing meth-ods, in-clud-ing
  []
 
 
-Underfull \hbox (badness 2460) in paragraph at lines 1167--1174
+Underfull \hbox (badness 2460) in paragraph at lines 1168--1175
 \OT1/ptm/m/n/10 previous-month and seasonal-naive fore-casts, ex-po-nen-tial
  []
 
-<../figures/forecast_monthly_median.png, id=363, 585.00664pt x 244.57689pt>
+<../figures/forecast_monthly_median.png, id=362, 585.00664pt x 244.57689pt>
 File: ../figures/forecast_monthly_median.png Graphic file (type png)
 <use ../figures/forecast_monthly_median.png>
 Package pdftex.def Info: ../figures/forecast_monthly_median.png  used on input 
-line 1178.
+line 1179.
 (pdftex.def)             Requested size: 252.0pt x 105.3526pt.
-<../figures/forecast_seasonal_naive.png, id=365, 569.41153pt x 241.15358pt>
+<../figures/forecast_seasonal_naive.png, id=364, 569.41153pt x 241.15358pt>
 File: ../figures/forecast_seasonal_naive.png Graphic file (type png)
 <use ../figures/forecast_seasonal_naive.png>
 Package pdftex.def Info: ../figures/forecast_seasonal_naive.png  used on input 
-line 1195.
+line 1196.
 (pdftex.def)             Requested size: 252.0pt x 106.72609pt.
 [10 <../figures/reliability_mae_by_price_band.png> <../figures/reliability_bias
 _by_price_band.png> <../figures/forecast_monthly_median.png> <../figures/foreca
@@ -920,7 +920,7 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 Here is how much of TeX's memory you used:
  22276 strings out of 467392
  422250 string characters out of 5407096
- 831537 words of memory out of 5000000
+ 830537 words of memory out of 5000000
  51147 multiletter control sequences out of 15000+600000
  674709 words of font info for 130 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -944,7 +944,7 @@ s/AD/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:
 ers/AD/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/User
 s/AD/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/A
 D/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (13 pages, 1462123 bytes).
+Output written on main.pdf (13 pages, 1462183 bytes).
 PDF statistics:
  515 PDF objects out of 1000 (max. 8388607)
  120 named destinations out of 1000 (max. 500000)

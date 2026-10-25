@@ -76,8 +76,8 @@ prediction. From 92,010 Auckland Council sales (2024--2026), we use
 Splink-based record linkage to give properties a LINZ coordinate, keep
 59,708 market sales, and link 16 external features:
 location, 2023 Census and deprivation statistics, flood and noise
-exposure, and building activity. Under time-ordered five-fold
-cross-validation, adding these features to the same XGBoost model cuts
+exposure, and building activity. Under time-ordered cross-validation,
+adding these features to the same XGBoost model cuts
 RMSE from \$343,718 to \$212,678 and MAPE from 19.3\% to 11.0\%. A
 paired bootstrap shows the gain is significant, and a two-stage test
 shows the external features explain 29.3\% of the variance in a
@@ -86,8 +86,9 @@ location drives most of the gain. XGBoost beats four other models,
 including a hedonic regression (MAPE 11.0\% vs 15.7\%), and SHAP
 explains each prediction in dollars. On 45 recent sales, two free online
 estimates (homes.co.nz and OneRoof) recorded before each sale were more
-accurate (MAPE 5.8\% vs 9.6\%), pointing to the value of richer property
-data.
+accurate (MAPE 5.8\% vs 9.6\%). Further analyses show that prediction
+errors grow for expensive homes and that a seasonal-naive method
+forecasts Auckland's monthly median price well.
 \end{abstract}
 
 \begin{IEEEkeywords}
